@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\ImGui">
+      <UniqueIdentifier>{8d24ca28-be95-4c4b-a992-3f77272ecbf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\ImGUI">
+      <UniqueIdentifier>{6e64a55b-153c-4146-b246-c31ad67e714f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{9d2edd90-e026-49a5-a3fe-c9a7d6f94977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\tinyfiledialogs">
+      <UniqueIdentifier>{a5fdb03a-a39f-4833-b82c-c9038a1b83f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\stb_image">
+      <UniqueIdentifier>{af654617-6625-4b52-a8ed-1def0b0d6062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\grid">
+      <UniqueIdentifier>{7c812113-f9ec-41d0-a3cd-48f7ff8d87e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\oueline">
+      <UniqueIdentifier>{d1df87d0-814a-476f-8bcb-e6d2e6bb258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\cutout">
+      <UniqueIdentifier>{49555c56-9cba-4951-827e-1b674e73b71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\transparent">
+      <UniqueIdentifier>{cb33d161-c184-431e-a51f-8a29e9b34555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\solidColor">
+      <UniqueIdentifier>{c4604436-3a65-435c-95fd-aacf0d3a393e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\default">
+      <UniqueIdentifier>{dab37795-b425-462e-a2bb-07c629e36d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\screenPostProcess">
+      <UniqueIdentifier>{d3b7a387-bf9b-499f-954f-0968f0f2f0e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\reflect">
+      <UniqueIdentifier>{118f5658-bdb7-4e74-9f91-79c66634eacd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\refract">
+      <UniqueIdentifier>{c102bf58-917e-4130-bcac-5e52a0432cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\skybox">
+      <UniqueIdentifier>{38ef4336-166a-4609-a43b-97a87573a0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\expland">
+      <UniqueIdentifier>{4771489c-7892-4491-add5-4c639819cd60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\normal">
+      <UniqueIdentifier>{453a966d-a688-42d9-b565-4394ff331855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\planet">
+      <UniqueIdentifier>{8d17aa54-2ba1-4e9f-9277-694ee1261595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\rock">
+      <UniqueIdentifier>{50eb66bf-b049-4a35-82b1-03e29ddb62ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\shadowCaster">
+      <UniqueIdentifier>{ffc1a0e9-474b-49fc-bb99-516aee33e83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\vertexWithoutShadow">
+      <UniqueIdentifier>{fc101791-0d4d-42c2-97f4-bb2c763d4eec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\timeUtility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gUIManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_demo.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_draw.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_impl_glfw.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_impl_opengl3.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_tables.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\imgui\imgui_widgets.cpp">
+      <Filter>源文件\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sceneManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\transform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\resourceManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\lightManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\mathUtility.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\tinyfiledialogs\tinyfiledialogs.c">
+      <Filter>源文件\tinyfiledialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="source\grid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="depend\stb_image\stb_image.cpp">
+      <Filter>源文件\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="source\screenPostProcess.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\skybox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\instance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="source\shadowMapManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header\window.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\timeUtility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\gUIManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imconfig.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imgui.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imgui_impl_glfw.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imgui_impl_opengl3.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imgui_internal.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imstb_rectpack.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imstb_textedit.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\imgui\imstb_truetype.h">
+      <Filter>头文件\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="header\renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\sceneManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\gameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\transform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\resourceManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\stb_image\stb_image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="depend\tinyfiledialogs\tinyfiledialogs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\lightManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\mathUtility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\grid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\screenPostProcess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\skybox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\instance.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="header\shadowMapManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\shader\gridFragment.glsl">
+      <Filter>Shader\grid</Filter>
+    </None>
+    <None Include="resource\shader\gridVertex.glsl">
+      <Filter>Shader\grid</Filter>
+    </None>
+    <None Include="resource\shader\outlineVertex.glsl">
+      <Filter>Shader\oueline</Filter>
+    </None>
+    <None Include="resource\shader\outlinFragment.glsl">
+      <Filter>Shader\oueline</Filter>
+    </None>
+    <None Include="resource\shader\cutout.glsl">
+      <Filter>Shader\cutout</Filter>
+    </None>
+    <None Include="resource\shader\transparentFragment.glsl">
+      <Filter>Shader\transparent</Filter>
+    </None>
+    <None Include="resource\shader\solidColorFragment.glsl">
+      <Filter>Shader\solidColor</Filter>
+    </None>
+    <None Include="resource\shader\vertex.glsl">
+      <Filter>Shader\default</Filter>
+    </None>
+    <None Include="resource\shader\fragment.glsl">
+      <Filter>Shader\default</Filter>
+    </None>
+    <None Include="resource\shader\screenPostProcessFragment.glsl">
+      <Filter>Shader\screenPostProcess</Filter>
+    </None>
+    <None Include="resource\shader\screenPostProcessVertex.glsl">
+      <Filter>Shader\screenPostProcess</Filter>
+    </None>
+    <None Include="resource\shader\reflectFragment.glsl">
+      <Filter>Shader\reflect</Filter>
+    </None>
+    <None Include="resource\shader\reflectVertex.glsl">
+      <Filter>Shader\reflect</Filter>
+    </None>
+    <None Include="resource\shader\refractFragment.glsl">
+      <Filter>Shader\refract</Filter>
+    </None>
+    <None Include="resource\shader\skyboxFragment.glsl">
+      <Filter>Shader\skybox</Filter>
+    </None>
+    <None Include="resource\shader\skyboxVertex.glsl">
+      <Filter>Shader\skybox</Filter>
+    </None>
+    <None Include="resource\shader\explodeFragment.glsl">
+      <Filter>Shader\expland</Filter>
+    </None>
+    <None Include="resource\shader\explodeGeometry.glsl">
+      <Filter>Shader\expland</Filter>
+    </None>
+    <None Include="resource\shader\explodeVertex.glsl">
+      <Filter>Shader\expland</Filter>
+    </None>
+    <None Include="resource\shader\hairFragment.glsl">
+      <Filter>Shader\normal</Filter>
+    </None>
+    <None Include="resource\shader\hairGeometry.glsl">
+      <Filter>Shader\normal</Filter>
+    </None>
+    <None Include="resource\shader\hairVertex.glsl">
+      <Filter>Shader\normal</Filter>
+    </None>
+    <None Include="resource\shader\planetFragment.glsl">
+      <Filter>Shader\planet</Filter>
+    </None>
+    <None Include="resource\shader\planetVertex.glsl">
+      <Filter>Shader\planet</Filter>
+    </None>
+    <None Include="resource\shader\rockVertex.glsl">
+      <Filter>Shader\rock</Filter>
+    </None>
+    <None Include="resource\shader\DLShadowCasterFragment.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\DLShadowCasterVertex.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\PLShadowCasterFragment.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\PLShadowCasterGeometry.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\PLShadowCasterVertex.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\SLShadowCasterVertex.glsl">
+      <Filter>Shader\shadowCaster</Filter>
+    </None>
+    <None Include="resource\shader\vertexWithoutShadow.glsl">
+      <Filter>Shader\vertexWithoutShadow</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TinyRenderer.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\icon\Huolg.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

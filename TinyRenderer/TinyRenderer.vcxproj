@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c28b2bd8-bf17-4397-8baa-70c72488385c}</ProjectGuid>
+    <RootNamespace>TinyRenderer</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="depend\imgui\imgui.cpp" />
+    <ClCompile Include="depend\imgui\imgui_demo.cpp" />
+    <ClCompile Include="depend\imgui\imgui_draw.cpp" />
+    <ClCompile Include="depend\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="depend\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="depend\imgui\imgui_tables.cpp" />
+    <ClCompile Include="depend\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="depend\stb_image\stb_image.cpp" />
+    <ClCompile Include="depend\tinyfiledialogs\tinyfiledialogs.c" />
+    <ClCompile Include="source\grid.cpp" />
+    <ClCompile Include="source\instance.cpp" />
+    <ClCompile Include="source\lightManager.cpp" />
+    <ClCompile Include="source\camera.cpp" />
+    <ClCompile Include="source\gameObject.cpp" />
+    <ClCompile Include="source\gUIManager.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\mathUtility.cpp" />
+    <ClCompile Include="source\mesh.cpp" />
+    <ClCompile Include="source\model.cpp" />
+    <ClCompile Include="source\renderer.cpp" />
+    <ClCompile Include="source\resourceManager.cpp" />
+    <ClCompile Include="source\sceneManager.cpp" />
+    <ClCompile Include="source\screenPostProcess.cpp" />
+    <ClCompile Include="source\shader.cpp" />
+    <ClCompile Include="source\shadowMapManager.cpp" />
+    <ClCompile Include="source\skybox.cpp" />
+    <ClCompile Include="source\timeUtility.cpp" />
+    <ClCompile Include="source\transform.cpp" />
+    <ClCompile Include="source\window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="depend\imgui\imconfig.h" />
+    <ClInclude Include="depend\imgui\imgui.h" />
+    <ClInclude Include="depend\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="depend\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="depend\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="depend\imgui\imgui_internal.h" />
+    <ClInclude Include="depend\imgui\imstb_rectpack.h" />
+    <ClInclude Include="depend\imgui\imstb_textedit.h" />
+    <ClInclude Include="depend\imgui\imstb_truetype.h" />
+    <ClInclude Include="depend\stb_image\stb_image.h" />
+    <ClInclude Include="depend\tinyfiledialogs\tinyfiledialogs.h" />
+    <ClInclude Include="header\camera.h" />
+    <ClInclude Include="header\gameObject.h" />
+    <ClInclude Include="header\grid.h" />
+    <ClInclude Include="header\gUIManager.h" />
+    <ClInclude Include="header\instance.h" />
+    <ClInclude Include="header\mathUtility.h" />
+    <ClInclude Include="header\mesh.h" />
+    <ClInclude Include="header\model.h" />
+    <ClInclude Include="header\resourceManager.h" />
+    <ClInclude Include="header\sceneManager.h" />
+    <ClInclude Include="header\screenPostProcess.h" />
+    <ClInclude Include="header\shader.h" />
+    <ClInclude Include="header\skybox.h" />
+    <ClInclude Include="header\timeUtility.h" />
+    <ClInclude Include="header\transform.h" />
+    <ClInclude Include="header\window.h" />
+    <ClInclude Include="header\renderer.h" />
+    <ClInclude Include="header\lightManager.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="header\shadowMapManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\shader\cutout.glsl" />
+    <None Include="resource\shader\DLShadowCasterFragment.glsl" />
+    <None Include="resource\shader\DLShadowCasterVertex.glsl" />
+    <None Include="resource\shader\explodeFragment.glsl" />
+    <None Include="resource\shader\explodeGeometry.glsl" />
+    <None Include="resource\shader\explodeVertex.glsl" />
+    <None Include="resource\shader\fragment.glsl" />
+    <None Include="resource\shader\gridFragment.glsl" />
+    <None Include="resource\shader\gridVertex.glsl" />
+    <None Include="resource\shader\hairFragment.glsl" />
+    <None Include="resource\shader\hairGeometry.glsl" />
+    <None Include="resource\shader\hairVertex.glsl" />
+    <None Include="resource\shader\outlineVertex.glsl" />
+    <None Include="resource\shader\outlinFragment.glsl" />
+    <None Include="resource\shader\planetFragment.glsl" />
+    <None Include="resource\shader\planetVertex.glsl" />
+    <None Include="resource\shader\PLShadowCasterFragment.glsl" />
+    <None Include="resource\shader\PLShadowCasterGeometry.glsl" />
+    <None Include="resource\shader\PLShadowCasterVertex.glsl" />
+    <None Include="resource\shader\reflectFragment.glsl" />
+    <None Include="resource\shader\reflectVertex.glsl" />
+    <None Include="resource\shader\refractFragment.glsl" />
+    <None Include="resource\shader\rockVertex.glsl" />
+    <None Include="resource\shader\screenPostProcessFragment.glsl" />
+    <None Include="resource\shader\screenPostProcessVertex.glsl" />
+    <None Include="resource\shader\skyboxFragment.glsl" />
+    <None Include="resource\shader\skyboxVertex.glsl" />
+    <None Include="resource\shader\SLShadowCasterVertex.glsl" />
+    <None Include="resource\shader\solidColorFragment.glsl" />
+    <None Include="resource\shader\transparentFragment.glsl" />
+    <None Include="resource\shader\vertex.glsl" />
+    <None Include="resource\shader\vertexWithoutShadow.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TinyRenderer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\icon\Huolg.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
