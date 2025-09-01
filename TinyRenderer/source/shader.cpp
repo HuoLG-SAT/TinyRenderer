@@ -1,17 +1,57 @@
 #include"../header/shader.h"
 #include"../header/camera.h"
 #include"../header/renderer.h"
-#include"../header/shadowMapManager.h"
+#include"../header/shadowmapmanager.h"
 
-Renderer::Shader::Shader(const char* vertexPath, const char* fragmentPath)
-	:programId(0), vertexId(0), geometryId(0), fragmentId(0), vertexShaderCode(nullptr), geometryShaderCode(nullptr), fragmentShaderCode(nullptr),
-	vertexPath(vertexPath), geometryPath(nullptr), fragmentPath(fragmentPath)
+namespace Renderer
+{
+	namespace ShaderPath
+	{
+		constexpr const char* SHADER_DEFAULT_VERTEX_PATH = "resource/shader/vertex.glsl";
+		constexpr const char* SHADER_DEFAULT_FRAGMENT_PATH = "resource/shader/fragment.glsl";
+		constexpr const char* SHADER_SOLID_VERTEX_PATH = "resource/shader/vertexWithoutShadow.glsl";
+		constexpr const char* SHADER_SOLID_FRAGMENT_PATH = "resource/shader/solidColorFragment.glsl";
+		constexpr const char* SHADER_GRID_VERTEX_PATH = "resource/shader/gridVertex.glsl";
+		constexpr const char* SHADER_GRID_FRAGMENT_PATH = "resource/shader/gridFragment.glsl";
+		constexpr const char* SHADER_OUTLINE_VERTEX_PATH = "resource/shader/outlineVertex.glsl";
+		constexpr const char* SHADER_OUTLINE_FRAGMENT_PATH = "resource/shader/outlinFragment.glsl";
+		constexpr const char* SHADER_CUTOUT_VERTEX_PATH = "resource/shader/vertexWithoutShadow.glsl";
+		constexpr const char* SHADER_CUTOUT_FRAGMENT_PATH = "resource/shader/cutout.glsl";
+		constexpr const char* SHADER_TRANSPARENT_VERTEX_PATH = "resource/shader/vertexWithoutShadow.glsl";
+		constexpr const char* SHADER_TRANSPARENT_FRAGMENT_PATH = "resource/shader/transparentFragment.glsl";
+		constexpr const char* SHADER_SCREENPOSTPROCESS_VERTEX_PATH = "resource/shader/screenPostProcessVertex.glsl";
+		constexpr const char* SHADER_SCREENPOSTPROCESS_FRAGMENT_PATH = "resource/shader/screenPostProcessFragment.glsl";
+		constexpr const char* SHADER_SKYBOX_VERTEX_PATH = "resource/shader/skyboxVertex.glsl";
+		constexpr const char* SHADER_SKYBOX_FRAGMENT_PATH = "resource/shader/skyboxFragment.glsl";
+		constexpr const char* SHADER_REFLECT_VERTEX_PATH = "resource/shader/reflectVertex.glsl";
+		constexpr const char* SHADER_REFLECT_FRAGMENT_PATH = "resource/shader/reflectFragment.glsl";
+		constexpr const char* SHADER_REFRACT_VERTEX_PATH = "resource/shader/reflectVertex.glsl";
+		constexpr const char* SHADER_REFRACT_FRAGMENT_PATH = "resource/shader/refractFragment.glsl";
+		constexpr const char* SHADER_EXPLAND_VERTEX_PATH = "resource/shader/explodeVertex.glsl";
+		constexpr const char* SHADER_EXPLAND_GEOMETRY_PATH = "resource/shader/explodeGeometry.glsl";
+		constexpr const char* SHADER_EXPLAND_FRAGMENT_PATH = "resource/shader/explodeFragment.glsl";
+		constexpr const char* SHADER_NORMAL_VERTEX_PATH = "resource/shader/hairVertex.glsl";
+		constexpr const char* SHADER_NORMAL_GEOMETRY_PATH = "resource/shader/hairGeometry.glsl";
+		constexpr const char* SHADER_NORMAL_FRAGMENT_PATH = "resource/shader/hairFragment.glsl";
+		constexpr const char* SHADER_PLANET_VERTEX_PATH = "resource/shader/planetVertex.glsl";
+		constexpr const char* SHADER_PLANET_FRAGMENT_PATH = "resource/shader/planetFragment.glsl";
+		constexpr const char* SHADER_ROCK_VERTEX_PATH = "resource/shader/rockVertex.glsl";
+		constexpr const char* SHADER_ROCK_FRAGMENT_PATH = "resource/shader/planetFragment.glsl";
+		constexpr const char* SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_VERTEX_PATH = "resource/shader/DLShadowCasterVertex.glsl";
+		constexpr const char* SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_FRAGMENT_PATH = "resource/shader/DLShadowCasterFragment.glsl";
+		constexpr const char* SHADER_SPOT_LIGHT_SHADOW_CASTER_VERTEX_PATH = "resource/shader/SLShadowCasterVertex.glsl";
+		constexpr const char* SHADER_SPOT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH = "resource/shader/DLShadowCasterFragment.glsl";
+		constexpr const char* SHADER_POINT_LIGHT_SHADOW_CASTER_VERTEX_PATH = "resource/shader/PLShadowCasterVertex.glsl";
+		constexpr const char* SHADER_POINT_LIGHT_SHADOW_CASTER_GEOMETRY_PATH = "resource/shader/PLShadowCasterGeometry.glsl";
+		constexpr const char* SHADER_POINT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH = "resource/shader/PLShadowCasterFragment.glsl";
+	}
+}
+
+Renderer::Shader::Shader(const char* vertexPath, const char* fragmentPath) :vertexPath(vertexPath), fragmentPath(fragmentPath)
 {
 
 }
-Renderer::Shader::Shader(const char* vertexPath, const char* geometryPath, const char* fragmentPath)
-	: programId(0), vertexId(0), geometryId(0), fragmentId(0), vertexShaderCode(nullptr), geometryShaderCode(nullptr), fragmentShaderCode(nullptr),
-	vertexPath(vertexPath), geometryPath(geometryPath), fragmentPath(fragmentPath)
+Renderer::Shader::Shader(const char* vertexPath, const char* geometryPath, const char* fragmentPath) : vertexPath(vertexPath), geometryPath(geometryPath), fragmentPath(fragmentPath)
 {
 
 }
@@ -163,46 +203,6 @@ bool Renderer::Shader::Compile()
 	}
 	return true;
 }
-unsigned int Renderer::Shader::Id() const
-{
-	return programId;
-}
-void Renderer::Shader::Use()
-{
-	glUseProgram(programId);
-}
-void Renderer::Shader::SetFloat(const char* name, float value)
-{
-	glUniform1f(glGetUniformLocation(programId, name), value);
-}
-void Renderer::Shader::SetInt(const char* name, int value)
-{
-	glUniform1i(glGetUniformLocation(programId, name), value);
-}
-void Renderer::Shader::SetInt(const std::string& name, int value)
-{
-	glUniform1i(glGetUniformLocation(programId, name.c_str()), value);
-}
-void Renderer::Shader::SetBool(const char* name, bool value)
-{
-	glUniform1i(glGetUniformLocation(programId, name), value ? GL_TRUE : GL_FALSE);
-}
-void Renderer::Shader::SetVec3(const char* name, float x, float y, float z)
-{
-	glUniform3f(glGetUniformLocation(programId, name), x, y, z);
-}
-void Renderer::Shader::SetVec3(const char* name, glm::vec3 value)
-{
-	glUniform3fv(glGetUniformLocation(programId, name), 1, glm::value_ptr(value));
-}
-void Renderer::Shader::SetSetMatrix4(const char* name, glm::mat4 value)
-{
-	glUniformMatrix4fv(glGetUniformLocation(programId, name), 1, GL_FALSE, glm::value_ptr(value));
-}
-void Renderer::Shader::SetSetMatrix4(const char* name, int num, glm::mat4* value)
-{
-	glUniformMatrix4fv(glGetUniformLocation(programId, name), num, GL_FALSE, glm::value_ptr(*value));
-}
 
 bool Renderer::Shader::BindUniform(const char* uniformBlockName, unsigned int blindPointIndex)
 {
@@ -306,9 +306,9 @@ bool Renderer::ShaderManager::InitPVCUBO()
 	glGenBuffers(1, &PVCUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, PVCUBO);
 	glBufferData(GL_UNIFORM_BUFFER, blockSize, NULL, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[0], sizeof(glm::mat4), glm::value_ptr(CameraI.Projection()));
-	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[1], sizeof(glm::mat4), glm::value_ptr(CameraI.View()));
-	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[2], sizeof(glm::vec3), glm::value_ptr(CameraI.Position()));
+	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[0], sizeof(glm::mat4), glm::value_ptr(CameraI.Projection));
+	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[1], sizeof(glm::mat4), glm::value_ptr(CameraI.View));
+	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[2], sizeof(glm::vec3), glm::value_ptr(CameraI.Position));
 	//将UBO绑定到绑定点0
 	glBindBufferBase(GL_UNIFORM_BUFFER, PROJECTION_VIEW_CAMERAPOSITION_UNIFORM_BLOCK_BIND_POINT, PVCUBO);
 	//将UniformBlock绑定到绑定点0
@@ -583,103 +583,103 @@ bool Renderer::ShaderManager::InitDSLUBO()
 }
 bool Renderer::ShaderManager::LoadShader()
 {
-	Shader* defaultShader = new Shader(SHADER_DEFAULT_VERTEX_PATH, SHADER_DEFAULT_FRAGMENT_PATH);
+	Shader* defaultShader = new Shader(ShaderPath::SHADER_DEFAULT_VERTEX_PATH, ShaderPath::SHADER_DEFAULT_FRAGMENT_PATH);
 	if (!defaultShader->Compile())
 	{
 		std::cout << "Default Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* solidColorShader = new Shader(SHADER_SOLID_VERTEX_PATH, SHADER_SOLID_FRAGMENT_PATH);
+	Shader* solidColorShader = new Shader(ShaderPath::SHADER_SOLID_VERTEX_PATH, ShaderPath::SHADER_SOLID_FRAGMENT_PATH);
 	if (!solidColorShader->Compile())
 	{
 		std::cout << "Solid Color Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* gridShader = new Shader(SHADER_GRID_VERTEX_PATH, SHADER_GRID_FRAGMENT_PATH);
+	Shader* gridShader = new Shader(ShaderPath::SHADER_GRID_VERTEX_PATH, ShaderPath::SHADER_GRID_FRAGMENT_PATH);
 	if (!gridShader->Compile())
 	{
 		std::cout << "Grid Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* outLineShader = new Shader(SHADER_OUTLINE_VERTEX_PATH, SHADER_OUTLINE_FRAGMENT_PATH);
+	Shader* outLineShader = new Shader(ShaderPath::SHADER_OUTLINE_VERTEX_PATH, ShaderPath::SHADER_OUTLINE_FRAGMENT_PATH);
 	if (!outLineShader->Compile())
 	{
 		std::cout << "OutLine Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* cutoutShader = new Shader(SHADER_CUTOUT_VERTEX_PATH, SHADER_CUTOUT_FRAGMENT_PATH);
+	Shader* cutoutShader = new Shader(ShaderPath::SHADER_CUTOUT_VERTEX_PATH, ShaderPath::SHADER_CUTOUT_FRAGMENT_PATH);
 	if (!cutoutShader->Compile())
 	{
 		std::cout << "Cutout Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* transparentShader = new Shader(SHADER_TRANSPARENT_VERTEX_PATH, SHADER_TRANSPARENT_FRAGMENT_PATH);
+	Shader* transparentShader = new Shader(ShaderPath::SHADER_TRANSPARENT_VERTEX_PATH, ShaderPath::SHADER_TRANSPARENT_FRAGMENT_PATH);
 	if (!transparentShader->Compile())
 	{
 		std::cout << "Transparent Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* screenPostProcessShader = new Shader(SHADER_SCREENPOSTPROCESS_VERTEX_PATH, SHADER_SCREENPOSTPROCESS_FRAGMENT_PATH);
+	Shader* screenPostProcessShader = new Shader(ShaderPath::SHADER_SCREENPOSTPROCESS_VERTEX_PATH, ShaderPath::SHADER_SCREENPOSTPROCESS_FRAGMENT_PATH);
 	if (!screenPostProcessShader->Compile())
 	{
 		std::cout << "Screen Post Process Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* skyBoxShader = new Shader(SHADER_SKYBOX_VERTEX_PATH, SHADER_SKYBOX_FRAGMENT_PATH);
+	Shader* skyBoxShader = new Shader(ShaderPath::SHADER_SKYBOX_VERTEX_PATH, ShaderPath::SHADER_SKYBOX_FRAGMENT_PATH);
 	if (!skyBoxShader->Compile())
 	{
 		std::cout << "Sky Box Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* reflectShader = new Shader(SHADER_REFLECT_VERTEX_PATH, SHADER_REFLECT_FRAGMENT_PATH);
+	Shader* reflectShader = new Shader(ShaderPath::SHADER_REFLECT_VERTEX_PATH, ShaderPath::SHADER_REFLECT_FRAGMENT_PATH);
 	if (!reflectShader->Compile())
 	{
 		std::cout << "Reflect Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* refractShader = new Shader(SHADER_REFRACT_VERTEX_PATH, SHADER_REFRACT_FRAGMENT_PATH);
+	Shader* refractShader = new Shader(ShaderPath::SHADER_REFRACT_VERTEX_PATH, ShaderPath::SHADER_REFRACT_FRAGMENT_PATH);
 	if (!refractShader->Compile())
 	{
 		std::cout << "Refract Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* explandShader = new Shader(SHADER_EXPLAND_VERTEX_PATH, SHADER_EXPLAND_GEOMETRY_PATH, SHADER_EXPLAND_FRAGMENT_PATH);
+	Shader* explandShader = new Shader(ShaderPath::SHADER_EXPLAND_VERTEX_PATH, ShaderPath::SHADER_EXPLAND_GEOMETRY_PATH, ShaderPath::SHADER_EXPLAND_FRAGMENT_PATH);
 	if (!explandShader->Compile())
 	{
 		std::cout << "Expland Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* normalShader = new Shader(SHADER_NORMAL_VERTEX_PATH, SHADER_NORMAL_GEOMETRY_PATH, SHADER_NORMAL_FRAGMENT_PATH);
+	Shader* normalShader = new Shader(ShaderPath::SHADER_NORMAL_VERTEX_PATH, ShaderPath::SHADER_NORMAL_GEOMETRY_PATH, ShaderPath::SHADER_NORMAL_FRAGMENT_PATH);
 	if (!normalShader->Compile())
 	{
 		std::cout << "Normal Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* planetShader = new Shader(SHADER_PLANET_VERTEX_PATH, SHADER_PLANET_FRAGMENT_PATH);
+	Shader* planetShader = new Shader(ShaderPath::SHADER_PLANET_VERTEX_PATH, ShaderPath::SHADER_PLANET_FRAGMENT_PATH);
 	if (!planetShader->Compile())
 	{
 		std::cout << "Planet Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* rockShader = new Shader(SHADER_ROCK_VERTEX_PATH, SHADER_ROCK_FRAGMENT_PATH);
+	Shader* rockShader = new Shader(ShaderPath::SHADER_ROCK_VERTEX_PATH, ShaderPath::SHADER_ROCK_FRAGMENT_PATH);
 	if (!rockShader->Compile())
 	{
 		std::cout << "Rock Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* directionalLightShadowCasterShader = new Shader(SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_VERTEX_PATH, SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
+	Shader* directionalLightShadowCasterShader = new Shader(ShaderPath::SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_VERTEX_PATH, ShaderPath::SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
 	if (!directionalLightShadowCasterShader->Compile())
 	{
 		std::cout << "Directional Light Shadow Caster Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* spotLightShadowCasterShader = new Shader(SHADER_SPOT_LIGHT_SHADOW_CASTER_VERTEX_PATH, SHADER_SPOT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
+	Shader* spotLightShadowCasterShader = new Shader(ShaderPath::SHADER_SPOT_LIGHT_SHADOW_CASTER_VERTEX_PATH, ShaderPath::SHADER_SPOT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
 	if (!spotLightShadowCasterShader->Compile())
 	{
 		std::cout << "Spot Light Shadow Caster Shader Compile Fail!" << std::endl;
 		return false;
 	}
-	Shader* pointLightShadowCasterShader = new Shader(SHADER_POINT_LIGHT_SHADOW_CASTER_VERTEX_PATH, SHADER_POINT_LIGHT_SHADOW_CASTER_GEOMETRY_PATH, SHADER_POINT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
+	Shader* pointLightShadowCasterShader = new Shader(ShaderPath::SHADER_POINT_LIGHT_SHADOW_CASTER_VERTEX_PATH, ShaderPath::SHADER_POINT_LIGHT_SHADOW_CASTER_GEOMETRY_PATH, ShaderPath::SHADER_POINT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH);
 	if (!pointLightShadowCasterShader->Compile())
 	{
 		std::cout << "Point Light Shadow Caster Shader Compile Fail!" << std::endl;
@@ -712,8 +712,8 @@ void Renderer::ShaderManager::Updata()
 void Renderer::ShaderManager::UpdataPVCUBO()
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, PVCUBO);
-	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[1], sizeof(glm::mat4), glm::value_ptr(CameraI.View()));
-	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[2], sizeof(glm::vec3), glm::value_ptr(CameraI.Position()));
+	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[1], sizeof(glm::mat4), glm::value_ptr(CameraI.View));
+	glBufferSubData(GL_UNIFORM_BUFFER, PVCUniformVariableOffset[2], sizeof(glm::vec3), glm::value_ptr(CameraI.Position));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 void Renderer::ShaderManager::UpdataDSLUBO()

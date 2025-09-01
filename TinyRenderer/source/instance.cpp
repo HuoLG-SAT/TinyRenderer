@@ -1,5 +1,6 @@
 #include"../header/instance.h"
-#include"../header/resourceManager.h"
+#include"../header/resourcemanager.h"
+
 Renderer::GPUInstanceManager::GPUInstanceManager() = default;
 Renderer::GPUInstanceManager::~GPUInstanceManager()
 {
@@ -32,13 +33,13 @@ bool Renderer::GPUInstanceManager::Init()
 		return false;
 	}
 
-	Model* plantModel = ResourceManagerI.LoadModel(PLANET_MODEL_PATH);
+	Model* plantModel = ResourceManagerI.LoadModel(ModelPath::PLANET_MODEL_PATH);
 	if (!plantModel)
 	{
 		std::cout << "Plant Mode Is Empty!" << std::endl;
 		return false;
 	}
-	Model* rockModel = ResourceManagerI.LoadModel(ROCK_MODEL_PATH);
+	Model* rockModel = ResourceManagerI.LoadModel(ModelPath::ROCK_MODEL_PATH);
 	if (!rockModel)
 	{
 		std::cout << "Rock Mode Is Empty!" << std::endl;
@@ -47,14 +48,14 @@ bool Renderer::GPUInstanceManager::Init()
  	plant = new Model(*plantModel);
 	rock = new Model(*rockModel);
 
-	glm::mat4* models = new glm::mat4[MAX_ROCK_INSTANCE_NUM];
-	for (int i = 0; i < MAX_ROCK_INSTANCE_NUM; i++)
+	glm::mat4* models = new glm::mat4[RockInstanceConfig::MAX_ROCK_INSTANCE_NUM];
+	for (int i = 0; i < RockInstanceConfig::MAX_ROCK_INSTANCE_NUM; i++)
 	{
 		models[i] = std::move(GPUInstanceUtility::GenerateRockModel(i));
 	}
 	glGenBuffers(1, &RVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, RVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * MAX_ROCK_INSTANCE_NUM, models, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * RockInstanceConfig::MAX_ROCK_INSTANCE_NUM, models, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	for (auto& mesh : rock->meshs)
@@ -103,7 +104,7 @@ void Renderer::GPUInstanceManager::Draw()
 	{
 		mesh.material.ApplyRockMaterial(*rockShader);
 		glBindVertexArray(mesh.VAO);
-		glDrawElementsInstanced(GL_TRIANGLES, mesh.indexs.size(), GL_UNSIGNED_INT, (void*)0, MAX_ROCK_INSTANCE_NUM);
+		glDrawElementsInstanced(GL_TRIANGLES, mesh.indexs.size(), GL_UNSIGNED_INT, (void*)0, RockInstanceConfig::MAX_ROCK_INSTANCE_NUM);
 	}
 }
 Renderer::GPUInstanceManager& Renderer::GPUInstanceManager::Instance = instance;

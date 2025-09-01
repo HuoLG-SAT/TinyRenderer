@@ -1,6 +1,7 @@
 #include"../header/model.h"
-#include"../header/resourceManager.h"
+#include"../header/resourcemanager.h"
 #include<iostream>
+
 Renderer::Model::Model() = default;
 Renderer::Model::~Model() = default;
 bool Renderer::Model::Load(const std::string& path)
@@ -47,9 +48,9 @@ void Renderer::Model::SetModelMap(TextureType type, const std::string& path)
 {
 	SetModelMap(type, ResourceManagerI.GetTexture(path));
 }
-void Renderer::Model::SetModelMap(TextureType type, unsigned int value)
+void Renderer::Model::SetModelMap(TextureType type, unsigned int id)
 {
-	SetModelMap(type, ResourceManagerI.GetTexture(value));
+	SetModelMap(type, ResourceManagerI.GetTexture(id));
 }
 Renderer::Texture* Renderer::Model::GetModeMap(TextureType type)
 {
@@ -114,14 +115,14 @@ Renderer::Material Renderer::Model::ProcessMaterial(aiMaterial* _aiMaterial)
 	material.shininess = glm::clamp((_aiMaterial->Get(AI_MATKEY_SHININESS, material.shininess) == AI_SUCCESS) ? material.shininess : 75.0f, 75.0f, 255.0f);
 	//漫反射纹理
 	Texture* diffuseTexture = ProcessTexture(_aiMaterial, aiTextureType_DIFFUSE, TextureType::Diffuse, true);
-	diffuseTexture = diffuseTexture ? diffuseTexture : ResourceManagerI.GetTexture(HUOLG_TEXTURE_PATH);
+	diffuseTexture = diffuseTexture ? diffuseTexture : ResourceManagerI.GetTexture(TexturePath::HUOLG_TEXTURE_PATH);
 	if (diffuseTexture != nullptr && material.textures.count(TextureType::Diffuse) <= 0)
 	{
 		material.textures.emplace(TextureType::Diffuse, diffuseTexture);
 	}
 	//高光反射纹理
 	Texture* specularTexture = ProcessTexture(_aiMaterial, aiTextureType_SPECULAR, TextureType::Specular, true);
-	specularTexture = specularTexture ? specularTexture : ResourceManagerI.GetTexture(WHITE_TEXTURE_PATH);
+	specularTexture = specularTexture ? specularTexture : ResourceManagerI.GetTexture(TexturePath::WHITE_TEXTURE_PATH);
 	if (specularTexture != nullptr && material.textures.count(TextureType::Specular) <= 0)
 	{
 		material.textures.emplace(TextureType::Specular, specularTexture);

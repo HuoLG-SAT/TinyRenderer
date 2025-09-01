@@ -3,10 +3,18 @@
 #include"../header/camera.h"
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
-Renderer::GridManager::GridManager():enableGrid(true), gridShader(nullptr)
-{
 
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* model = "model";
+		constexpr const char* gridFadeDistance = "gridFadeDistance";
+		constexpr const char* gridLineColor = "gridLineColor";
+	}
 }
+
+Renderer::GridManager::GridManager() = default;
 Renderer::GridManager::~GridManager() = default;
 void Renderer::GridManager::Draw()
 {
@@ -16,9 +24,9 @@ void Renderer::GridManager::Draw()
 	}
 
 	gridShader->Use();
-	gridShader->SetSetMatrix4("model", glm::translate(glm::mat4(1.0f), glm::vec3(0, -2.0f, 0)));
-	gridShader->SetFloat("gridFadeDistance", GRID_FADE_DISTANCE);
-	gridShader->SetVec3("gridLineColor", glm::vec3(1.0f));
+	gridShader->SetSetMatrix4(ShaderParameter::model, glm::translate(glm::mat4(1.0f), glm::vec3(0, -2.0f, 0)));
+	gridShader->SetFloat(ShaderParameter::gridFadeDistance, GridConfig::GRID_FADE_DISTANCE);
+	gridShader->SetVec3(ShaderParameter::gridLineColor, glm::vec3(1.0f));
 	grid.Draw(*gridShader);
 }
 bool Renderer::GridManager::LoadGrid()
@@ -31,11 +39,7 @@ bool Renderer::GridManager::LoadGrid()
 Renderer::GridManager& Renderer::GridManager::Instance = instance;
 Renderer::GridManager Renderer::GridManager::instance;
 
-Renderer::Grid::Grid()
-	: VAO(0),VBO(0)
-{ 
-	
-}
+Renderer::Grid::Grid() = default;
 Renderer::Grid::~Grid()
 {
 	glDeleteBuffers(1, &VBO);

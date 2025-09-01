@@ -1,14 +1,19 @@
-#include"../header/sceneManager.h"
+#include"../header/scenemanager.h"
 #include"../header/renderer.h"
 #include"../header/camera.h"
-#include"../header/lightManager.h"
+#include"../header/lightmanager.h"
 #include"../header/skybox.h"
-#include"../header/shadowMapManager.h"
+#include"../header/shadowmapmanager.h"
 
-Renderer::SceneManager::SceneManager():isDirty(false), ids(1)
+namespace Renderer
 {
-
+	namespace ShaderParameter
+	{
+		constexpr const char* cubemap = "cubemap";
+	}
 }
+
+Renderer::SceneManager::SceneManager() = default;
 Renderer::SceneManager::~SceneManager()
 {
 	for (auto& gameObject : gameObjectList)
@@ -90,7 +95,7 @@ void Renderer::SceneManager::Updata()
 
 				case ShaderType::Transparent:
 					transparentShaderGosList.push_back(gameObject);
-					transparentShaderGos.emplace(glm::distance(CameraI.Position(), gameObject->transform.Position()), gameObject);
+					transparentShaderGos.emplace(glm::distance(CameraI.Position, gameObject->transform.Position), gameObject);
 					break;
 
 				case ShaderType::Reflect:
@@ -122,7 +127,7 @@ void Renderer::SceneManager::SortTransparentGOs()
 	transparentShaderGos.clear();
 	for (auto& gameObject : transparentShaderGosList)
 	{
-		transparentShaderGos.emplace(glm::distance(CameraI.Position(), gameObject->transform.Position()), gameObject);
+		transparentShaderGos.emplace(glm::distance(CameraI.Position, gameObject->transform.Position), gameObject);
 	}
 }
 void Renderer::SceneManager::AddGameObject()
@@ -133,14 +138,6 @@ void Renderer::SceneManager::AddGameObject()
 	gameObjectMap.emplace(id, gameObject);
 	ShadowMapManagerI.AddShadowCaster(id, gameObject);
 	isDirty = true;
-}
-Renderer::GameObject* Renderer::SceneManager::GetGameObject(int id)
-{
-	if (gameObjectMap.count(id) > 0)
-	{
-		return gameObjectMap[id];
-	}
-	return nullptr;
 }
 void Renderer::SceneManager::DrawGeometry()
 {
@@ -190,7 +187,7 @@ void Renderer::SceneManager::DrawGeometry()
 		reflectShader->Use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManagerI.skyBoxCubemap->id);
-		reflectShader->SetInt("cubemap", 0);
+		reflectShader->SetInt(ShaderParameter::cubemap, 0);
 		for (auto& gameObject : reflectShaderGOs)
 		{
 			if (gameObject)
@@ -206,7 +203,7 @@ void Renderer::SceneManager::DrawGeometry()
 		refractShader->Use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManagerI.skyBoxCubemap->id);
-		refractShader->SetInt("cubemap", 0);
+		refractShader->SetInt(ShaderParameter::cubemap, 0);
 		for (auto& gameObject : refractShaderGOs)
 		{
 			if (gameObject)
@@ -280,10 +277,6 @@ void Renderer::SceneManager::DrawTransparent()
 		}
 		glDisable(GL_BLEND);
 	}
-}
-void Renderer::SceneManager::SetDirty()
-{
-	isDirty = true;
 }
 Renderer::SceneManager& Renderer::SceneManager::Instance = instance;
 Renderer::SceneManager Renderer::SceneManager::instance;

@@ -88,12 +88,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\include;$(SolutionDir)TinyRenderer\depend\GLEW\include;$(SolutionDir)TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\lib;$(SolutionDir)TinyRenderer\depend\GLEW\lib\Release\x64;$(SolutionDir)TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -105,14 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\include;$(SolutionDir)TinyRenderer\depend\GLEW\include;$(SolutionDir)TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\lib;$(SolutionDir)TinyRenderer\depend\GLEW\lib\Release\x64;$(SolutionDir)TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,12 +122,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\include;$(SolutionDir)TinyRenderer\depend\GLEW\include;$(SolutionDir)TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\lib;$(SolutionDir)TinyRenderer\depend\GLEW\lib\Release\x64;$(SolutionDir)TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -139,14 +139,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\include;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\include;$(SolutionDir)TinyRenderer\depend\GLEW\include;$(SolutionDir)TinyRenderer\depend\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLFW\lib;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\GLEW\lib\Release\x64;C:\Users\98143\Desktop\SuperStar\VSProjects\TinyRenderer\TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)TinyRenderer\depend\GLFW\lib;$(SolutionDir)TinyRenderer\depend\GLEW\lib\Release\x64;$(SolutionDir)TinyRenderer\depend\ASSIMP\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;Opengl32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -162,22 +162,22 @@
     <ClCompile Include="depend\tinyfiledialogs\tinyfiledialogs.c" />
     <ClCompile Include="source\grid.cpp" />
     <ClCompile Include="source\instance.cpp" />
-    <ClCompile Include="source\lightManager.cpp" />
+    <ClCompile Include="source\lightmanager.cpp" />
     <ClCompile Include="source\camera.cpp" />
-    <ClCompile Include="source\gameObject.cpp" />
-    <ClCompile Include="source\gUIManager.cpp" />
+    <ClCompile Include="source\gameobject.cpp" />
+    <ClCompile Include="source\guimanager.cpp" />
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\mathUtility.cpp" />
+    <ClCompile Include="source\mathutility.cpp" />
     <ClCompile Include="source\mesh.cpp" />
     <ClCompile Include="source\model.cpp" />
     <ClCompile Include="source\renderer.cpp" />
-    <ClCompile Include="source\resourceManager.cpp" />
-    <ClCompile Include="source\sceneManager.cpp" />
-    <ClCompile Include="source\screenPostProcess.cpp" />
+    <ClCompile Include="source\resourcemanager.cpp" />
+    <ClCompile Include="source\scenemanager.cpp" />
+    <ClCompile Include="source\screenpostprocess.cpp" />
     <ClCompile Include="source\shader.cpp" />
-    <ClCompile Include="source\shadowMapManager.cpp" />
+    <ClCompile Include="source\shadowmapmanager.cpp" />
     <ClCompile Include="source\skybox.cpp" />
-    <ClCompile Include="source\timeUtility.cpp" />
+    <ClCompile Include="source\timesystem.cpp" />
     <ClCompile Include="source\transform.cpp" />
     <ClCompile Include="source\window.cpp" />
   </ItemGroup>
@@ -194,25 +194,25 @@
     <ClInclude Include="depend\stb_image\stb_image.h" />
     <ClInclude Include="depend\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="header\camera.h" />
-    <ClInclude Include="header\gameObject.h" />
+    <ClInclude Include="header\gameobject.h" />
     <ClInclude Include="header\grid.h" />
-    <ClInclude Include="header\gUIManager.h" />
+    <ClInclude Include="header\guimanager.h" />
     <ClInclude Include="header\instance.h" />
-    <ClInclude Include="header\mathUtility.h" />
+    <ClInclude Include="header\mathutility.h" />
     <ClInclude Include="header\mesh.h" />
     <ClInclude Include="header\model.h" />
-    <ClInclude Include="header\resourceManager.h" />
-    <ClInclude Include="header\sceneManager.h" />
-    <ClInclude Include="header\screenPostProcess.h" />
+    <ClInclude Include="header\resourcemanager.h" />
+    <ClInclude Include="header\scenemanager.h" />
+    <ClInclude Include="header\screenpostprocess.h" />
     <ClInclude Include="header\shader.h" />
     <ClInclude Include="header\skybox.h" />
-    <ClInclude Include="header\timeUtility.h" />
+    <ClInclude Include="header\timesystem.h" />
     <ClInclude Include="header\transform.h" />
     <ClInclude Include="header\window.h" />
     <ClInclude Include="header\renderer.h" />
-    <ClInclude Include="header\lightManager.h" />
+    <ClInclude Include="header\lightmanager.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="header\shadowMapManager.h" />
+    <ClInclude Include="header\shadowmapmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\shader\cutout.glsl" />

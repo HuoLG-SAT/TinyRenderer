@@ -1,7 +1,8 @@
 #pragma once
-#include"gameObject.h"
+#include"gameobject.h"
 #include<vector>
 #include<map>
+
 namespace Renderer
 {
 	class SceneManager
@@ -11,8 +12,15 @@ namespace Renderer
 		void AddGameObject();
 		void DrawGeometry();
 		void DrawTransparent();
-		void SetDirty();
-		GameObject* GetGameObject(int id);
+
+		inline void SetDirty()
+		{
+			isDirty = true;
+		}
+		inline GameObject* GetGameObject(int id)
+		{
+			return (gameObjectMap.count(id) > 0) ? gameObjectMap[id] : nullptr;
+		}
 
 		static SceneManager& Instance;
 
@@ -39,8 +47,8 @@ namespace Renderer
 		std::vector<GameObject*> explandShaderGOs;
 		std::vector<GameObject*> normalShadeGOs;
 		std::map<float, GameObject*> transparentShaderGos;
-		bool isDirty;
-		int ids;
+		bool isDirty = false;
+		int ids = 1;
 		static SceneManager instance;
 	};
 }

@@ -2,12 +2,19 @@
 #include"../header/camera.h"
 #include"../header/renderer.h"
 #include"../depend/stb_image/stb_image.h"
-#include"../header/screenPostProcess.h"
-Renderer::Window::Window()
-	:window(nullptr), width(0.0f),height(0.0f)
-{
+#include"../header/screenpostprocess.h"
+#include<iostream>
 
+namespace Renderer
+{
+	namespace WindowConfig
+	{
+		constexpr const char* HUOLG_ICON_PATH = "resource\\icon\\Huolg.png";
+		constexpr const char* WINDOW_NAME = "TinyRenderer";
+	}
 }
+
+Renderer::Window::Window() = default;
 Renderer::Window::~Window()
 {
 	//销毁窗口
@@ -31,9 +38,10 @@ bool Renderer::Window::InitWindow(int width, int height)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
+	glfwSwapInterval(1);
 
 	//创建窗口
-	window = glfwCreateWindow(width, height, "TinyRenderer", NULL, NULL);
+	window = glfwCreateWindow(width, height, WindowConfig::WINDOW_NAME, NULL, NULL);
 	//检测窗口是否创建成功
 	if (!window)
 	{
@@ -49,7 +57,7 @@ bool Renderer::Window::InitWindow(int width, int height)
 
 	//加载图标
 	int _width, _height, _channel;
-	unsigned char* pixels = stbi_load(HUOLG_ICON_PATH, &_width, &_height, &_channel, 4);
+	unsigned char* pixels = stbi_load(WindowConfig::HUOLG_ICON_PATH, &_width, &_height, &_channel, 4);
 	GLFWimage icon;
 	icon.width = _width;
 	icon.height = _height;
@@ -82,58 +90,7 @@ bool Renderer::Window::InitWindow(int width, int height)
 
 	return true;
 }
-bool Renderer::Window::IsClose()
-{
-	return static_cast<bool>(glfwWindowShouldClose(window));
-}
-void Renderer::Window::ClearFrameBuffer()
-{
-	glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-	glClearDepth(1.0f);
-	glClearStencil(0x00);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
-void Renderer::Window::FlashWindow()
-{
-	glfwSwapBuffers(window);
-	glfwPollEvents();
-}
-void Renderer::Window::ProcessUserInput()
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	{
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-	}
-}
-int Renderer::Window::Width() const
-{
-	return width;
-}
-int Renderer::Window::Height() const
-{
-	return height;
-}
-void Renderer::Window::SetWindowSize(int width, int height)
-{
-	this->width = width;
-	this->height = height;
-}
-void Renderer::Window::SetWindowWidth(int width)
-{
-	this->width = width;
-}
-void Renderer::Window::SetWindowHeight(int height)
-{
-	this->height = height;
-}
-void Renderer::Window::ResetWindowViewPort()
-{
-	glViewport(0, 0, width, height);
-}
-GLFWwindow* Renderer::Window::GetWindow() const
-{
-	return window;
-}
+
 Renderer::Window& Renderer::Window::Instance = instance;
 Renderer::Window Renderer::Window::instance;
 

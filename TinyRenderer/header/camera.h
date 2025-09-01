@@ -29,12 +29,6 @@ namespace Renderer
 		void ProcessMouseMovement(glm::vec2 mousePosition, bool isRightButtonPress);
 		void ProcessMouseScroll(float offset);
 
-		glm::vec3 Position() const;
-		glm::vec3 Forward() const;
-
-		glm::mat4 View() const;
-		glm::mat4 Projection() const;
-
 		static Camera& Instance;
 
 	private:
@@ -45,29 +39,35 @@ namespace Renderer
 		Camera& operator= (const Camera&) = delete;
 		Camera& operator= (Camera&&) = delete;
 
+	public:
+		const glm::vec3& Position = position;
+		const glm::vec3& Forward = forward;
+		const glm::mat4& View = view;
+		const glm::mat4& Projection = projection;
+
 	private:
 		static Camera instance;
 
-		glm::vec3 position;
-		glm::vec3 forward;
+		glm::vec3 position = glm::vec3(0.0f);
+		glm::vec3 forward = glm::vec3(0.0f, 0.0f, -1.0f);
 
-		bool isPerspective;
-		bool isFovChanged;
+		bool isPerspective = true;
+		bool isFovChanged = false;
 
-		float fov;
-		float width;
-		float height;
-		float near;
-		float far;
+		float fov = 45.0f;
+		float width = 1280;
+		float height = 720;
+		float near = 0.1f;
+		float far = 100.0f;
 
-		float speed;
-		float sensitivity;
-		bool isFirstMove;
-		float yaw;
-		float pitch;
-		glm::vec2 mouseLastPosition;
+		float speed = 5.0f;
+		float sensitivity = 0.1f;
+		bool isFirstMove = true;
+		float yaw = -90.0f;
+		float pitch = 0.0f;
+		glm::vec2 mouseLastPosition = glm::vec2(0.0f);
 
-		glm::mat4 projection;
-		glm::mat4 view;
+		glm::mat4 projection = glm::perspective(glm::radians(fov), width / height, near, far);
+		glm::mat4 view = glm::lookAt(position, position + forward, glm::vec3(0, 1, 0));
 	};
 }

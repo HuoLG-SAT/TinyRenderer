@@ -1,7 +1,26 @@
 #include"../header/mesh.h"
 #include"../header/shader.h"
 #include"../depend/stb_image/stb_image.h"
-#include"../header/resourceManager.h"
+#include"../header/resourcemanager.h"
+
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* material_shiness = "material.shininess";
+		constexpr const char* material_diffuseColor = "material.diffuseColor";
+		constexpr const char* material_specularColor = "material.specularColor";
+		constexpr const char* material_ambientColor = "material.ambientColor";
+		constexpr const char* material_diffuseMap = "material.diffuseMap";
+		constexpr const char* material_specularMap = "material.specularMap";
+		constexpr const char* cutoutTexture = "cutoutTexture";
+		constexpr const char* transparentTexture = "transparentTexture";
+		constexpr const char* explandTexture = "_texture";
+		constexpr const char* planetTexture = "_texture";
+		constexpr const char* rockTexture = "_texture";
+	}
+}
+
 void Renderer::Material::Apply(Shader& shader,ShaderType shaderType)
 {
 	switch (shaderType)
@@ -29,10 +48,10 @@ void Renderer::Material::Apply(Shader& shader,ShaderType shaderType)
 }
 void Renderer::Material::ApplyDefaultMaterial(Shader& shader)
 {
-	shader.SetFloat(MATERIAL_SHINESS, shininess);
-	shader.SetVec3(MATERIAL_DIFFUSE_COLOR, diffuseColor);
-	shader.SetVec3(MATERIAL_SPECULAR_COLOR, specularColor);
-	shader.SetVec3(MATERIAL_AMBIENT_COLOR, ambientColor);
+	shader.SetFloat(ShaderParameter::material_shiness, shininess);
+	shader.SetVec3(ShaderParameter::material_diffuseColor, diffuseColor);
+	shader.SetVec3(ShaderParameter::material_specularColor, specularColor);
+	shader.SetVec3(ShaderParameter::material_ambientColor, ambientColor);
 	int i = 0;
 	for (auto& pair : textures)
 	{
@@ -43,11 +62,11 @@ void Renderer::Material::ApplyDefaultMaterial(Shader& shader)
 			switch (pair.second->type)
 			{
 				case TextureType::Diffuse:
-					shader.SetInt(MATERIAL_DIFFUSE_MAP, i);
+					shader.SetInt(ShaderParameter::material_diffuseMap, i);
 					break;
 
 				case TextureType::Specular:
-					shader.SetInt(MATERIAL_SPECULAR_MAP, i);
+					shader.SetInt(ShaderParameter::material_specularMap, i);
 					break;
 			}
 			i++;
@@ -60,7 +79,7 @@ void Renderer::Material::ApplyCutoutMaterila(Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[TextureType::Diffuse]->id);
-		shader.SetInt(CUTOUT_TEXTURE, 0);
+		shader.SetInt(ShaderParameter::cutoutTexture, 0);
 	}
 }
 void Renderer::Material::ApplyTransparentMaterial(Shader& shader)
@@ -69,7 +88,7 @@ void Renderer::Material::ApplyTransparentMaterial(Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[TextureType::Diffuse]->id);
-		shader.SetInt(TRANSPARENT_TEXTURE, 0);
+		shader.SetInt(ShaderParameter::transparentTexture, 0);
 	}
 }
 void Renderer::Material::ApplyExplandMaterial(Shader& shader)
@@ -78,7 +97,7 @@ void Renderer::Material::ApplyExplandMaterial(Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[TextureType::Diffuse]->id);
-		shader.SetInt(EXPLANDE_TEXTURE, 0);
+		shader.SetInt(ShaderParameter::explandTexture, 0);
 	}
 }
 void Renderer::Material::ApplyPlanetMaterial(Shader& shader)
@@ -87,7 +106,7 @@ void Renderer::Material::ApplyPlanetMaterial(Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[TextureType::Diffuse]->id);
-		shader.SetInt(PLANET_TEXTURE, 0);
+		shader.SetInt(ShaderParameter::planetTexture, 0);
 	}
 }
 void Renderer::Material::ApplyRockMaterial(Shader& shader)
@@ -96,7 +115,7 @@ void Renderer::Material::ApplyRockMaterial(Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[TextureType::Diffuse]->id);
-		shader.SetInt(ROCK_TETXURE, 0);
+		shader.SetInt(ShaderParameter::rockTexture, 0);
 	}
 }
 

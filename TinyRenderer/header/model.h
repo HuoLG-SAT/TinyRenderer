@@ -5,6 +5,7 @@
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
 #include<unordered_map>
+
 namespace Renderer
 {
 	class Model
@@ -21,8 +22,8 @@ namespace Renderer
 		void SetModelMap(TextureType type, Texture* texture);
 		void SetModelMap(TextureType type, const std::string& path);
 		void SetModelMap(TextureType type, unsigned int id);
-		Texture* GetModeMap(TextureType type);
 
+		Texture* GetModeMap(TextureType type);
 	private:
 		void ProcessNode(aiNode* node, const aiScene* scene);
 		Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);

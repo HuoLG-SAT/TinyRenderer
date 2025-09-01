@@ -1,5 +1,17 @@
-#include"../header/shadowMapManager.h"
+#include"../header/shadowmapmanager.h"
 #include"../header/window.h"
+
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* directionalLightSpaceMatrix = "directionalLightSpaceMatrix";
+		constexpr const char* spotLightSpaceMatrix = "spotLightSpaceMatrix";
+		constexpr const char* far = "far";
+		constexpr const char* lightPos = "lightPos";
+		constexpr const char* pointLightSpaceMatrix = "pointLightSpaceMatrix";
+	}
+}
 
 Renderer::ShadowMapManager::ShadowMapManager()
 {
@@ -20,7 +32,7 @@ Renderer::ShadowMapManager::~ShadowMapManager()
 	SLFBO = 0;
 	SLDBO = 0;
 
-	for (int i = 0; i < MAX_POINT_NUM; i++)
+	for (int i = 0; i < LightConfig::MAX_POINT_LIGHT_NUM; i++)
 	{
 		glDeleteFramebuffers(1, &PLFBO[i]);
 		glDeleteTextures(1, &PLDBO[i]);
@@ -53,7 +65,7 @@ bool Renderer::ShadowMapManager::InitDLFBO()
 	//生成深度缓冲区
 	glGenTextures(1, &DLDBO);
 	glBindTexture(GL_TEXTURE_2D, DLDBO);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ShadowCastConfig::SHADOW_MAP_WIDTH, ShadowCastConfig::SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -77,8 +89,8 @@ bool Renderer::ShadowMapManager::InitDLFBO()
 	//解除绑定
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	directionalLightProjection = glm::ortho(DIRECTIONAL_LIGHT_LEFT, DIRECTIONAL_LIGHT_RIGHT, DIRECTIONAL_LIGHT_BOTTOM, DIRECTIONAL_LIGHT_TOP, DIRECTIONAL_LIGHT_NEAR, DIRECTIONAL_LIGHT_FAR);
-	directionalLightView = glm::lookAt(glm::normalize(-LightManagerI.directionalLight.direction) * (DIRECTIONAL_LIGHT_FAR / 2), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	directionalLightProjection = glm::ortho(ShadowCastConfig::DIRECTIONAL_LIGHT_LEFT, ShadowCastConfig::DIRECTIONAL_LIGHT_RIGHT, ShadowCastConfig::DIRECTIONAL_LIGHT_BOTTOM, ShadowCastConfig::DIRECTIONAL_LIGHT_TOP, ShadowCastConfig::DIRECTIONAL_LIGHT_NEAR, ShadowCastConfig::DIRECTIONAL_LIGHT_FAR);
+	directionalLightView = glm::lookAt(glm::normalize(-LightManagerI.directionalLight.direction) * (ShadowCastConfig::DIRECTIONAL_LIGHT_FAR / 2), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	directionalLightSpaceMatrix = directionalLightProjection * directionalLightView;
 
 	return true;
@@ -92,7 +104,7 @@ bool Renderer::ShadowMapManager::InitSLFBO()
 	//生成深度缓冲区
 	glGenTextures(1, &SLDBO);
 	glBindTexture(GL_TEXTURE_2D, SLDBO);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, ShadowCastConfig::SHADOW_MAP_WIDTH, ShadowCastConfig::SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -116,7 +128,7 @@ bool Renderer::ShadowMapManager::InitSLFBO()
 	//解除绑定
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	spotLightProjection = glm::perspective(glm::radians(SPOT_LIGHT_FOV), static_cast<float>(SHADOW_MAP_WIDTH) / SHADOW_MAP_HEIGHT, SPOT_LIGHT_NEAR, SPOT_LIGHT_FAR);
+	spotLightProjection = glm::perspective(glm::radians(ShadowCastConfig::SPOT_LIGHT_FOV), static_cast<float>(ShadowCastConfig::SHADOW_MAP_WIDTH) / ShadowCastConfig::SHADOW_MAP_HEIGHT, ShadowCastConfig::SPOT_LIGHT_NEAR, ShadowCastConfig::SPOT_LIGHT_FAR);
 	spotLightView = glm::lookAt(LightManagerI.spotLight.position, LightManagerI.spotLight.position + glm::normalize(LightManagerI.spotLight.direction), glm::vec3(0.0f, 1.0f, 0.0f));
 	spotLightSpaceMatrix = spotLightProjection * spotLightView;
 
@@ -124,9 +136,9 @@ bool Renderer::ShadowMapManager::InitSLFBO()
 }
 bool Renderer::ShadowMapManager::InitPLFBO()
 {
-	pointProjection = glm::perspective(glm::radians(POINT_LIGHT_FOV), static_cast<float>(SHADOW_MAP_WIDTH) / SHADOW_MAP_HEIGHT, POINT_LIGHT_NEAR, POINT_LIGHT_FAR);
+	pointProjection = glm::perspective(glm::radians(ShadowCastConfig::POINT_LIGHT_FOV), static_cast<float>(ShadowCastConfig::SHADOW_MAP_WIDTH) / ShadowCastConfig::SHADOW_MAP_HEIGHT, ShadowCastConfig::POINT_LIGHT_NEAR, ShadowCastConfig::POINT_LIGHT_FAR);
 
-	for (int i = 0; i < MAX_POINT_NUM; i++)
+	for (int i = 0; i < LightConfig::MAX_POINT_LIGHT_NUM; i++)
 	{
 		//生成帧缓冲区
 		glGenFramebuffers(1, &PLFBO[i]);
@@ -137,7 +149,7 @@ bool Renderer::ShadowMapManager::InitPLFBO()
 		glBindTexture(GL_TEXTURE_CUBE_MAP, PLDBO[i]);
 		for (int face = 0; face < 6; face++)
 		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL_DEPTH_COMPONENT, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL_DEPTH_COMPONENT, ShadowCastConfig::SHADOW_MAP_WIDTH, ShadowCastConfig::SHADOW_MAP_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 		}
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -195,7 +207,7 @@ bool Renderer::ShadowMapManager::LoadShader()
 }
 void Renderer::ShadowMapManager::UpdataDirectionaLightSpaceMatrix()
 {
-	directionalLightView = glm::lookAt(glm::normalize(-LightManagerI.directionalLight.direction) * (DIRECTIONAL_LIGHT_FAR / 2), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	directionalLightView = glm::lookAt(glm::normalize(-LightManagerI.directionalLight.direction) * (ShadowCastConfig::DIRECTIONAL_LIGHT_FAR / 2), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	directionalLightSpaceMatrix = directionalLightProjection * directionalLightView;
 }
 void Renderer::ShadowMapManager::UpdataSpotLightSpaceMatrix()
@@ -205,26 +217,26 @@ void Renderer::ShadowMapManager::UpdataSpotLightSpaceMatrix()
 }
 void Renderer::ShadowMapManager::UpdataPointtLightSpaceMatrixs()
 {
-	for (int i = 0; i < LightManagerI.pointLightNum && i < MAX_POINT_NUM; i++)
+	for (int i = 0; i < LightManagerI.pointLightNum && i < LightConfig::MAX_POINT_LIGHT_NUM; i++)
 	{
 		UpdataPointtLightSpaceMatrix(i);
 	}
 }
 void Renderer::ShadowMapManager::UpdataPointtLightSpaceMatrix(int i)
 {
-	pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//+X方向
-	pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//-X方向
-	pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));	//+Y方向
-	pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));	//-Y方向
-	pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//+Z方向
-	pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//-Z方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f));		//+X方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//-X方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));		//+Y方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));	//-Y方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f));		//+Z方向
+	pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX] = glm::lookAt(LightManagerI.pointLights[i].position, LightManagerI.pointLights[i].position + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f));	//-Z方向
 
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX];
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX];
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX];
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX];
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX];
-	pointSpaceMatrixs[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX] = pointProjection * pointViews[i][POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX];
+	pointSpaceMatrixs[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX] = pointProjection * pointViews[i][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX];
 }
 void Renderer::ShadowMapManager::ShadowMapping()
 {
@@ -233,7 +245,7 @@ void Renderer::ShadowMapManager::ShadowMapping()
 		return;
 	}
 
-	glViewport(0, 0, SHADOW_MAP_WIDTH, SHADOW_MAP_HEIGHT);
+	glViewport(0, 0, ShadowCastConfig::SHADOW_MAP_WIDTH, ShadowCastConfig::SHADOW_MAP_HEIGHT);
 	glCullFace(GL_FRONT); //渲染状态,影响OpenGL上下文的全部帧缓冲区
 
 	ShadowMappingDirectionalLight();
@@ -260,7 +272,7 @@ void Renderer::ShadowMapManager::ShadowMappingDirectionalLight()
 	glClearDepth(1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	directionalLightShadowCasterShader->Use();
-	directionalLightShadowCasterShader->SetSetMatrix4("directionalLightSpaceMatrix", directionalLightSpaceMatrix);
+	directionalLightShadowCasterShader->SetSetMatrix4(ShaderParameter::directionalLightSpaceMatrix, directionalLightSpaceMatrix);
 	for (auto& pair : shadowCastGOs)
 	{
 		if (!pair.second)
@@ -289,7 +301,7 @@ void Renderer::ShadowMapManager::ShadowMappingSpotLight()
 	glClearDepth(1.0f);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	spotLightShadowCasterShader->Use();
-	spotLightShadowCasterShader->SetSetMatrix4("spotLightSpaceMatrix", spotLightSpaceMatrix);
+	spotLightShadowCasterShader->SetSetMatrix4(ShaderParameter::spotLightSpaceMatrix, spotLightSpaceMatrix);
 	for (auto& pair : shadowCastGOs)
 	{
 		if (!pair.second)
@@ -315,14 +327,14 @@ void Renderer::ShadowMapManager::ShadowMappingPointLight()
 
 	//生成点光源ShadowMap阴影映射纹理
 	pointLightShadowCasterShader->Use();
-	pointLightShadowCasterShader->SetFloat("far", POINT_LIGHT_FAR);
-	for (int i = 0; i < LightManagerI.pointLightNum && i < MAX_POINT_NUM; i++)
+	pointLightShadowCasterShader->SetFloat(ShaderParameter::far, ShadowCastConfig::POINT_LIGHT_FAR);
+	for (int i = 0; i < LightManagerI.pointLightNum && i < LightConfig::MAX_POINT_LIGHT_NUM; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, PLFBO[i]);
 		glClearDepth(1.0f);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		pointLightShadowCasterShader->SetVec3("lightPos", LightManagerI.pointLights[i].position);
-		pointLightShadowCasterShader->SetSetMatrix4("pointLightSpaceMatrix", POINT_LIGHT_CUBE_MAP_FACE_NUM, pointSpaceMatrixs[i]);
+		pointLightShadowCasterShader->SetVec3(ShaderParameter::lightPos, LightManagerI.pointLights[i].position);
+		pointLightShadowCasterShader->SetSetMatrix4(ShaderParameter::pointLightSpaceMatrix, ShadowCastConfig::POINT_LIGHT_CUBE_MAP_FACE_NUM, pointSpaceMatrixs[i]);
 		for (auto& pair : shadowCastGOs)
 		{
 			if (!pair.second)

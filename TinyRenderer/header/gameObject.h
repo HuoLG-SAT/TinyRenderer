@@ -2,12 +2,30 @@
 #include"shader.h"
 #include"transform.h"
 #include"model.h"
-#include"gUIManager.h"
+#include"guimanager.h"
 
 namespace Renderer
 {
-#define MODEL "model"
-#define EXPLAND_DEGRESS "explandDegress"
+	namespace GORenderTextureIndex
+	{
+		namespace Diffuse
+		{
+			constexpr const unsigned int WoodIndex = 0;
+			constexpr const unsigned int WallIndex = 1;
+			constexpr const unsigned int BoxIndex = 2;
+			constexpr const unsigned int IconIndex = 3;
+			constexpr const unsigned int GressIndex = 4;
+			constexpr const unsigned int FaceIndex = 5;
+			constexpr const unsigned int WindowIndex = 6;
+			constexpr const unsigned int CustonIndex = 7;
+		}
+		namespace Specular
+		{
+			constexpr const unsigned int IronyIndex = 0;
+			constexpr const unsigned int WhiteIndex = 1;
+			constexpr const unsigned int CustonIndex = 2;
+		}
+	}
 
 	enum class DisplayMode
 	{
@@ -36,8 +54,8 @@ namespace Renderer
 		float outLineWidth = 1.05f;
 		glm::vec3 outLineColor = glm::vec3(1.0f);
 		glm::vec3 solidColor = glm::vec3(1.0f);
-		int diffuseMapChoose = WOOD_DIFFUSE_INDEX;
-		int specularMapChoose = IRONY_SPECULAR_INDEX;
+		unsigned int diffuseMapChoose = GORenderTextureIndex::Diffuse::WoodIndex;
+		unsigned int specularMapChoose = GORenderTextureIndex::Specular::IronyIndex;
 		bool isFloowTime = true;
 		bool isEnableOutLine = false;
 		bool isEnableCullFace = true;
@@ -76,9 +94,14 @@ namespace Renderer
 		void SetModelMap(TextureType type, unsigned int);
 		Renderer::Texture* GetModeMap(TextureType type);
 
-		void SetIsDelete(bool value);
-
-		glm::mat4 Model();
+		inline void SetIsDelete(bool value)
+		{
+			isDelete = value;
+		}
+		inline glm::mat4 Model()
+		{
+			return parent ? parent->Model() * transform.Model() : transform.Model();
+		}
 
 	private:
 		void ChooseCubeModel();
@@ -102,15 +125,15 @@ namespace Renderer
 		void DrawShadowMapModel(Shader& shader, ShaderType shaderType);
 
 	private:
-		Renderer::Transform transform;
-		Renderer::Model* model;
+		Renderer::Transform transform = Renderer::Transform(*this);
+		Renderer::Model* model = nullptr;
 
-		GameObject* parent;
-		bool isEnable;
-		bool isDelete;
+		GameObject* parent = nullptr;
+		bool isEnable = true;
+		bool isDelete = false;
 
-		int id;
-		int parentId;
+		int id = 0;
+		int parentId = 0;
 	
 		//物体渲染参数信息
 		GORenderInfo renderInfo;

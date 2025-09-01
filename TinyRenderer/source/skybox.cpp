@@ -1,11 +1,17 @@
 #include"../header/skybox.h"
 #include"../header/model.h"
-#include"../header/resourceManager.h"
+#include"../header/resourcemanager.h"
 #include"../header/camera.h"
-Renderer::SkyBox::SkyBox() :skybox(nullptr)
-{
 
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* skyBoxShader = "skyBoxShader";
+	}
 }
+
+Renderer::SkyBox::SkyBox() = default;
 Renderer::SkyBox::~SkyBox()
 {
 	if (skybox)
@@ -16,7 +22,7 @@ Renderer::SkyBox::~SkyBox()
 }
 bool Renderer::SkyBox::Init()
 {
-	Model* model = ResourceManagerI.LoadModel(CUBE_MODEL_PATH);
+	Model* model = ResourceManagerI.LoadModel(ModelPath::CUBE_MODEL_PATH);
 	if (!model)
 	{
 		std::cout << "Sky Box Model Load Fail!" << std::endl;
@@ -30,20 +36,16 @@ void Renderer::SkyBox::Draw(Shader& shader)
 	shader.Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManagerI.skyBoxCubemap->id);
-	shader.SetInt("skyBoxShader", 0);
+	shader.SetInt(ShaderParameter::skyBoxShader, 0);
 	skybox->Draw(shader, ShaderType::SkyBox);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }
 
-Renderer::SkyBoxManager::SkyBoxManager() 
-	:skyBoxShader(nullptr), skyBoxCubemap(nullptr), isEnableSkyBox(true), skyBoxCubeMapType(SkyBoxCubeMapType::Glacier)
-{
-
-}
+Renderer::SkyBoxManager::SkyBoxManager() = default;
 Renderer::SkyBoxManager::~SkyBoxManager() = default;
 bool Renderer::SkyBoxManager::InitSkyBox()
 {
-	skyBoxCubemap = ResourceManagerI.GetCubemap(CUBEMAP_GLACIER_SKYBOX_NAME);
+	skyBoxCubemap = ResourceManagerI.GetCubemap(SkyboxName::CUBEMAP_GLACIER_SKYBOX_NAME);
 	skyBoxShader = ShaderManagerI.GetShader(ShaderType::SkyBox);
 	return skyBoxCubemap && skyBoxShader && skyBox.Init();
 }
@@ -53,20 +55,16 @@ void Renderer::SkyBoxManager::Draw()
 	skyBox.Draw(*skyBoxShader);
 	glCullFace(GL_BACK);
 }
-bool Renderer::SkyBoxManager::IsEnableSkyBox() const
-{
-	return isEnableSkyBox;
-}
 void Renderer::SkyBoxManager::ChooseSkyBoxCubeMap()
 {
 	switch (skyBoxCubeMapType)
 	{
 		case Renderer::SkyBoxCubeMapType::Glacier:
-			skyBoxCubemap = ResourceManagerI.GetCubemap(CUBEMAP_GLACIER_SKYBOX_NAME);
+			skyBoxCubemap = ResourceManagerI.GetCubemap(SkyboxName::CUBEMAP_GLACIER_SKYBOX_NAME);
 			break;
 
 		case Renderer::SkyBoxCubeMapType::Palace:
-			skyBoxCubemap = ResourceManagerI.GetCubemap(CUBEMAP_PALACE_SKYBOX_NAME);
+			skyBoxCubemap = ResourceManagerI.GetCubemap(SkyboxName::CUBEMAP_PALACE_SKYBOX_NAME);
 			break;
 	}
 }

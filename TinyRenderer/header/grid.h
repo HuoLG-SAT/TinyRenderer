@@ -28,11 +28,14 @@ namespace Renderer
 	private:
 		std::vector<GridPoint> points;
 
-		unsigned int VAO;
-		unsigned int VBO;
+		unsigned int VAO = 0;
+		unsigned int VBO = 0;
 	};
 
-#define GRID_FADE_DISTANCE (50)
+	namespace GridConfig
+	{
+		constexpr const unsigned int GRID_FADE_DISTANCE = 50;
+	}
 
 	class GridManager
 	{
@@ -53,8 +56,8 @@ namespace Renderer
 
 	private:
 		Grid grid;
-		Shader* gridShader;
-		bool enableGrid;
+		Shader* gridShader = nullptr;
+		bool enableGrid = true;
 
 		static GridManager instance;
 	};

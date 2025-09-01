@@ -51,7 +51,11 @@ namespace Renderer
 		bool isPickUp = false;
 	};
 
-#define MAX_POINT_NUM (5)
+	namespace LightConfig
+	{
+		constexpr const unsigned int MAX_POINT_LIGHT_NUM = 5;
+	}
+
 	class LightManager
 	{
 		friend class GUIManager;
@@ -59,10 +63,18 @@ namespace Renderer
 		friend class ShaderManager;
 	public:
 		void Updata();
-		void AddPointNum();
-		void DecreasePointNum();
 		void SetShader(Shader& shader);
 
+		inline void AddPointNum()
+		{
+			pointLightNum = glm::clamp(pointLightNum + 1, 0, 5);
+		}
+		inline void DecreasePointNum()
+		{
+			pointLightNum = glm::clamp(pointLightNum - 1, 0, 5);
+		}
+
+	public:
 		static LightManager& Instance;
 
 	private:
@@ -75,7 +87,7 @@ namespace Renderer
 
 	private:
 		Renderer::DirectionalLight directionalLight;
-		Renderer::PointLight pointLights[MAX_POINT_NUM];
+		Renderer::PointLight pointLights[LightConfig::MAX_POINT_LIGHT_NUM];
 		Renderer::SpotLight spotLight;
 		glm::vec3 ambient = glm::vec3(0.4f);
 

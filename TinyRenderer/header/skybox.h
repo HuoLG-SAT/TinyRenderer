@@ -2,6 +2,7 @@
 #include"shader.h"
 #include"renderer.h"
 #include"mesh.h"
+
 namespace Renderer
 {
 	enum class SkyBoxCubeMapType
@@ -21,7 +22,7 @@ namespace Renderer
 		void Draw(Shader& shader);
 
 	private:
-		Model* skybox;
+		Model* skybox = nullptr;
 	};
 
 	class SkyBoxManager
@@ -32,8 +33,9 @@ namespace Renderer
 	public:
 		bool InitSkyBox();
 		void Draw();
-		bool IsEnableSkyBox() const;
 
+	public:
+		const bool& IsEnableSkyBox = isEnableSkyBox;
 		static SkyBoxManager& Instance;
 
 	private:
@@ -48,11 +50,11 @@ namespace Renderer
 
 	private:
 		static SkyBoxManager instance;
-		bool isEnableSkyBox;
-		SkyBoxCubeMapType skyBoxCubeMapType;
+		bool isEnableSkyBox = true;
+		SkyBoxCubeMapType skyBoxCubeMapType = SkyBoxCubeMapType::Glacier;
 
 		SkyBox skyBox;
-		Shader* skyBoxShader;
-		Cubemap* skyBoxCubemap;
+		Shader* skyBoxShader = nullptr;
+		Cubemap* skyBoxCubemap = nullptr;
 	};
 }

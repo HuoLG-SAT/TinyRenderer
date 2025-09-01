@@ -44,21 +44,21 @@ namespace Renderer
 	private:
 		static ScreenPostProcess instance;
 
-		ScreenPostProcessType type;
+		ScreenPostProcessType type = ScreenPostProcessType::None;
 
-		Model* panel;
-		Shader* screenPostProcessShader;
-		bool isEnableScreenPostProcess;
+		Model* panel = nullptr;
+		Shader* screenPostProcessShader = nullptr;
+		bool isEnableScreenPostProcess = false;
 
-		unsigned int FBO;
-		unsigned int CBO;
-		unsigned int RBO;
+		unsigned int FBO = 0;
+		unsigned int CBO = 0;
+		unsigned int RBO = 0;
 
-		unsigned int MFBO;
-		unsigned int MCBO;
-		unsigned int MRBO;
+		unsigned int MFBO = 0;
+		unsigned int MCBO = 0;
+		unsigned int MRBO = 0;
 
-		int width;
-		int height;
+		int width = 0;
+		int height = 0;
 	};
 }

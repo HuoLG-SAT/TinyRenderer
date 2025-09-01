@@ -1,22 +1,44 @@
-#include"../header/gUIManager.h"
+#include"../header/guimanager.h"
 #include"../header/window.h"
 #include"../header/renderer.h"
-#include"../header/sceneManager.h"
+#include"../header/scenemanager.h"
 #include"../header/camera.h"
 #include"../depend/tinyfiledialogs/tinyfiledialogs.h"
-#include"../header/lightManager.h"
-#include"../header/resourceManager.h"
-#include"../header/screenPostProcess.h"
+#include"../header/lightmanager.h"
+#include"../header/resourcemanager.h"
+#include"../header/screenpostProcess.h"
 #include"../header/skybox.h"
 #include"../header/grid.h"
 #include"../header/instance.h"
-#include"../header/shadowMapManager.h"
+#include"../header/shadowmapmanager.h"
 
-Renderer::GUIManager::GUIManager()
-	:io(nullptr), isShowScene(false), isShowLight(false), isShowScreenPostProcess(false), isShowSkyBox(false), isShowPlanet(false)
+namespace Renderer
 {
+#define DIFFUSE_MAP_ITEMS u8"木箱子",u8"墙",u8"木盒子",u8"图标",u8"草",u8"笑脸",u8"透明窗口",u8"自定义纹理"
+#define SPECULAR_MAP_ITEMS u8"铁箱子",u8"白色",u8"自定义纹理"
+#define DIFFUSE_MAP_NUM 8
+#define SPECULAR_MAP_NUM 3
 
+#define MODEL_ITEMS u8"正方体",u8"球",u8"平面",u8"自定义模型"
+#define MODEL_NUM 4
+
+#define SHADER_ITEMS u8"默认Shader",u8"纯色Shader",u8"透明切割Shader",u8"透明Shader",u8"反射Shader",u8"折射Shader",u8"扩张Shader"
+#define SHADER_NUM 7
+
+#define DISPLAY_ITEMS u8"静止",u8"绕X轴摇摆",u8"绕Y轴摇摆",u8"绕Z轴摇摆",u8"绕X轴旋转",u8"绕Y轴旋转",u8"绕Z轴旋转"
+#define DISPLAY_NUM 7
+
+#define SCREEN_POST_PROCESS_ITEMS u8"无",u8"灰度图",u8"颜色翻转",u8"锐化",u8"模糊",u8"边缘硬化"
+#define SCREEN_POST_PROCESS_NUM 6
+
+#define SKYBOX_CUBEMAP_ITEMS u8"冰川",u8"教堂"
+#define SKYBOX_CUBEMAP_NUM 2
+
+#define DIRECTIONAL_MOVE_AXIS_ITEMS u8"X轴",u8"Y轴",u8"Z轴"
+#define DIRECTIONAL_MOVE_AXIS_NUM 3
 }
+
+Renderer::GUIManager::GUIManager() = default;
 Renderer::GUIManager::~GUIManager()
 {
 	ImGui_ImplGlfw_Shutdown();
@@ -190,7 +212,7 @@ void Renderer::GUIManager::LightGUI()
 		ImGui::Checkbox(u8"是否开启光源投射阴影##", &Renderer::ShadowMapManagerI.isEnablePointLightShadowCaster);
 		int pointLightNum = Renderer::LightManagerI.pointLightNum;
 		ImGui::Text(u8"点光源数量%d", pointLightNum);
-		for (int i = 0; i < pointLightNum && i < MAX_POINT_NUM; i++)
+		for (int i = 0; i < pointLightNum && i < LightConfig::MAX_POINT_LIGHT_NUM; i++)
 		{
 			if (ImGui::TreeNode((std::string(u8"点光源 ") + std::to_string(i + 1)).c_str()))
 			{
@@ -284,7 +306,7 @@ void Renderer::GUIManager::PlanetGUI()
 }
 void Renderer::GUIManager::SceneGUI()
 {
-	const glm::vec3& position = Renderer::CameraI.Position();
+	const glm::vec3& position = Renderer::CameraI.Position;
 	ImGui::Begin(u8"场景信息");
 
 	ImGui::BeginChild("场景信息", ImVec2(250, 60), true);
@@ -322,9 +344,9 @@ void Renderer::GUIManager::GameObjectGUI(GameObject& gameObject)
 	{
 		ImGui::Text(u8"属性");
 		ImGui::BeginChild("属性", ImVec2(400, 100), true);
-		if (ImGui::InputFloat3(u8"位置", glm::value_ptr(gameObject.transform.Position()), "%.2f") ||
-			ImGui::InputFloat3(u8"旋转", glm::value_ptr(gameObject.transform.Rotate()), "%.2f") ||
-			ImGui::InputFloat3(u8"缩放", glm::value_ptr(gameObject.transform.Scale()), "%.2f"))
+		if (ImGui::InputFloat3(u8"位置", glm::value_ptr(gameObject.transform.Position), "%.2f") ||
+			ImGui::InputFloat3(u8"旋转", glm::value_ptr(gameObject.transform.Rotate), "%.2f") ||
+			ImGui::InputFloat3(u8"缩放", glm::value_ptr(gameObject.transform.Scale), "%.2f"))
 		{
 			gameObject.transform.SetDirty();
 		}
@@ -475,7 +497,7 @@ void Renderer::GUIManager::DrawGameObjectDefaultShaderGUI(GameObject& gameObject
 	}
 	else
 	{
-		ImGui::Image(ResourceManagerI.GetTexture(HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(ResourceManagerI.GetTexture(TexturePath::HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
 	}
 
 	const char* specularMapItems[] = { SPECULAR_MAP_ITEMS };
@@ -490,7 +512,7 @@ void Renderer::GUIManager::DrawGameObjectDefaultShaderGUI(GameObject& gameObject
 	}
 	else
 	{
-		ImGui::Image(ResourceManagerI.GetTexture(WHITE_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(ResourceManagerI.GetTexture(TexturePath::WHITE_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
 	}
 }
 void Renderer::GUIManager::DrawGameObjectSolidColorShaderGUI(GameObject& gameObject)
@@ -511,7 +533,7 @@ void Renderer::GUIManager::DrawGameObjectCutoutShaderGUI(GameObject& gameObject)
 	}
 	else
 	{
-		ImGui::Image(ResourceManagerI.GetTexture(HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(ResourceManagerI.GetTexture(TexturePath::HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
 	}
 	ImGui::SliderFloat(u8"透明切割阈值", &gameObject.renderInfo.cutoutValue, 0.0f, 1.0f);
 }
@@ -529,7 +551,7 @@ void Renderer::GUIManager::DrawGameObjectTransparentShaderGUI(GameObject& gameOb
 	}
 	else
 	{
-		ImGui::Image(ResourceManagerI.GetTexture(HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
+		ImGui::Image(ResourceManagerI.GetTexture(TexturePath::HUOLG_TEXTURE_PATH)->id, ImVec2(50, 50), ImVec2(0, 0), ImVec2(1, 1));
 	}
 }
 void Renderer::GUIManager::DrawGameObjectReflectShaderGUI(GameObject& gameObject)

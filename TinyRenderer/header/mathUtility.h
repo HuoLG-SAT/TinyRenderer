@@ -2,21 +2,17 @@
 #include"../depend/glm/glm.hpp"
 #include"../depend/glm/gtc/matrix_transform.hpp"
 #include"../depend/glm/gtc/type_ptr.hpp"
-#include"../header/timeUtility.h"
+#include"../header/timesystem.h"
 #include<random>
 
 namespace MathUtility
 {
-#define EPSILON_VALUE (1e-6f)
+	constexpr const float EPSILON_VALUE = 1e-6f;
 
-	extern float sinTime;
-	extern float cosTime;
+	extern const float& sinTime;
+	extern const float& cosTime;
 
-	inline void Updata()
-	{
-		sinTime = glm::sin(TimeUtility::time);
-		cosTime = glm::cos(TimeUtility::time);
-	}
+	void Tick();
 
 	inline bool IsEqual(float a, float b)
 	{

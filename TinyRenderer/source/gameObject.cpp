@@ -1,13 +1,28 @@
-#include"../header/gameObject.h"
-#include"../header/resourceManager.h"
-#include"../header/timeUtility.h"
-#include"../header/mathUtility.h"
+#include"../header/gameobject.h"
+#include"../header/resourcemanager.h"
+#include"../header/timesystem.h"
+#include"../header/mathutility.h"
 #include"../depend/tinyfiledialogs/tinyfiledialogs.h"
-#include"../header/sceneManager.h"
-#include"../header/gUIManager.h"
+#include"../header/scenemanager.h"
+#include"../header/guimanager.h"
 
-Renderer::GameObject::GameObject(int id)
-	:model(nullptr), isEnable(true), isDelete(false), parent(nullptr), transform(*this), id(id), parentId(0)
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* model = "model";
+		constexpr const char* explandDegress = "explandDegress";
+		constexpr const char* refractive = "refractive";
+		constexpr const char* reflectivity = "reflectivity";
+		constexpr const char* solidColor = "solidColor";
+		constexpr const char* outLineColor = "outLineColor";
+		constexpr const char* cutoutValue = "cutoutValue";
+		constexpr const char* lineDistance = "lineDistance";
+		constexpr const char* normalColor = "normalColor";
+	}
+}
+
+Renderer::GameObject::GameObject(int id): id(id)
 {
 	ChooseCubeModel();
 }
@@ -28,27 +43,27 @@ void Renderer::GameObject::Updata()
 	switch (renderInfo.displayMode)
 	{
 		case Renderer::DisplayMode::RotationX:
-			transform.Rotate(glm::vec3(std::fmod(TimeUtility::time * renderInfo.rotateSpeed, 360.0f), 0.0f, 0.0f));
+			transform.Rotate = glm::vec3(std::fmod(TimeSystem::tick * renderInfo.rotateSpeed, 360.0f), 0.0f, 0.0f);
 			break;
 
 		case Renderer::DisplayMode::RotationY:
-			transform.Rotate(glm::vec3(0.0f, std::fmod(TimeUtility::time * renderInfo.rotateSpeed, 360.0f), 0.0f));
+			transform.Rotate = glm::vec3(0.0f, std::fmod(TimeSystem::tick * renderInfo.rotateSpeed, 360.0f), 0.0f);
 			break;
 
 		case Renderer::DisplayMode::RotationZ:
-			transform.Rotate(glm::vec3(0.0f, 0.0f, std::fmod(TimeUtility::time * renderInfo.rotateSpeed, 360.0f)));
+			transform.Rotate = glm::vec3(0.0f, 0.0f, std::fmod(TimeSystem::tick * renderInfo.rotateSpeed, 360.0f));
 			break;
 
 		case Renderer::DisplayMode::SwayX:
-			transform.Rotate(glm::vec3(MathUtility::sinTime * renderInfo.rotateSpeed, 0.0f, 0.0f));
+			transform.Rotate = glm::vec3(MathUtility::sinTime * renderInfo.rotateSpeed, 0.0f, 0.0f);
 			break;
 
 		case Renderer::DisplayMode::SwayY:
-			transform.Rotate(glm::vec3(0.0f, MathUtility::sinTime * renderInfo.rotateSpeed, 0.0f));
+			transform.Rotate = glm::vec3(0.0f, MathUtility::sinTime * renderInfo.rotateSpeed, 0.0f);
 			break;
 
 		case Renderer::DisplayMode::SwayZ:
-			transform.Rotate(glm::vec3(0.0f, 0.0f, MathUtility::sinTime * renderInfo.rotateSpeed));
+			transform.Rotate = glm::vec3(0.0f, 0.0f, MathUtility::sinTime * renderInfo.rotateSpeed);
 			break;
 	}
 }
@@ -142,99 +157,95 @@ void Renderer::GameObject::DrawShadowMap(Shader& shader,ShaderType shaderType)
 }
 void Renderer::GameObject::DrawDefaultMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model());
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
 	model->Draw(shader, ShaderType::Default);
 }
 void Renderer::GameObject::DrawSolidMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model());
-	shader.SetVec3("solidColor", renderInfo.solidColor);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetVec3(ShaderParameter::solidColor, renderInfo.solidColor);
 	model->Draw(shader, ShaderType::SolidColor);
 }
 void Renderer::GameObject::DrawOutLineMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model() * glm::scale(glm::mat4(1.0f), glm::vec3(renderInfo.outLineWidth)));
-	shader.SetVec3("outLineColor", renderInfo.outLineColor);
+	shader.SetSetMatrix4(ShaderParameter::model, Model() * glm::scale(glm::mat4(1.0f), glm::vec3(renderInfo.outLineWidth)));
+	shader.SetVec3(ShaderParameter::outLineColor, renderInfo.outLineColor);
 	model->Draw(shader, ShaderType::OutLine);
 }
 void Renderer::GameObject::DrawCutoutMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model());
-	shader.SetFloat("cutoutValue", renderInfo.cutoutValue);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetFloat(ShaderParameter::cutoutValue, renderInfo.cutoutValue);
 	model->Draw(shader, ShaderType::Cutout);
 }
 void Renderer::GameObject::DrawTransparentMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model());
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
 	model->Draw(shader, ShaderType::Transparent);
 }
 void Renderer::GameObject::DrawReflectMode(Shader& shader)
 {
-	shader.SetSetMatrix4("model", Model());
-	shader.SetFloat("reflectivity", renderInfo.reflectivity);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetFloat(ShaderParameter::reflectivity, renderInfo.reflectivity);
 	model->Draw(shader, ShaderType::Reflect);
 }
 void Renderer::GameObject::DrawRefractMode(Shader& shader)
 {
-	shader.SetSetMatrix4(MODEL, Model());
-	shader.SetFloat("refractive", renderInfo.refractive);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetFloat(ShaderParameter::refractive, renderInfo.refractive);
 	model->Draw(shader, ShaderType::Refract);
 }
 void Renderer::GameObject::DrawExplandMode(Shader& shader)
 {
-	shader.SetSetMatrix4(MODEL, Model());
-	shader.SetFloat(EXPLAND_DEGRESS, renderInfo.isFloowTime ? ((sin(TimeUtility::time * renderInfo.explandSpeed) + 1) / 2) * renderInfo.explandRange : renderInfo.explandDegress);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetFloat(ShaderParameter::explandDegress, renderInfo.isFloowTime ? ((sin(TimeSystem::tick * renderInfo.explandSpeed) + 1) / 2) * renderInfo.explandRange : renderInfo.explandDegress);
 	model->Draw(shader, ShaderType::Expland);
 }
 void Renderer::GameObject::DrawNormalMode(Shader& shader)
 {
-	shader.SetSetMatrix4(MODEL, Model());
-	shader.SetFloat("lineDistance", renderInfo.normalLineDistance);
-	shader.SetVec3("normalColor", renderInfo.normalColor);
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
+	shader.SetFloat(ShaderParameter::lineDistance, renderInfo.normalLineDistance);
+	shader.SetVec3(ShaderParameter::normalColor, renderInfo.normalColor);
 	model->Draw(shader, ShaderType::Normal);
 }
 void Renderer::GameObject::DrawShadowMapModel(Shader& shader, ShaderType shaderType)
 {
-	shader.SetSetMatrix4("model", Model());
+	shader.SetSetMatrix4(ShaderParameter::model, Model());
 	model->Draw(shader, shaderType);
-}
-void Renderer::GameObject::SetIsDelete(bool value)
-{
-	isDelete = value;
 }
 void Renderer::GameObject::ChooseDiffuseMap()
 {
 	switch (renderInfo.diffuseMapChoose)
 	{
-		case WOOD_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, WOOD_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::WoodIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::WOOD_TEXTURE_PATH);
 			break;
 
-		case WALL_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, WALL_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::WallIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::WALL_TEXTURE_PATH);
 			break;
 
-		case BOX_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, BOX_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::BoxIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::BOX_TEXTURE_PATH);
 			break;
 
-		case ICON_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, HUOLG_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::IconIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::HUOLG_TEXTURE_PATH);
 			break;
 
-		case GRESS_CUTOOUT_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, GRASS_CUTOUT_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::GressIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::GRASS_CUTOUT_TEXTURE_PATH);
 			break;
 
-		case FACE_CUTOOUT_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, FACE_CUTOUT_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::FaceIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::FACE_CUTOUT_TEXTURE_PATH);
 			break;
 
-		case WINDOW_TRANSPARENT_DIFFUSE_INDEX:
-			model->SetModelMap(TextureType::Diffuse, WINDOW_TRANSPARENT_TEXTURE_PATH);
+		case GORenderTextureIndex::Diffuse::WindowIndex:
+			model->SetModelMap(TextureType::Diffuse, TexturePath::WINDOW_TRANSPARENT_TEXTURE_PATH);
 			break;
 
-		case CUSTOM_DIFFUSE_INDEX:
+		case GORenderTextureIndex::Diffuse::CustonIndex:
 			ChooseCustomTexture(TextureType::Diffuse);
 			break;
 	}
@@ -243,15 +254,15 @@ void Renderer::GameObject::ChooseSpecularMap()
 {
 	switch (renderInfo.specularMapChoose)
 	{
-		case IRONY_SPECULAR_INDEX:
-			model->SetModelMap(TextureType::Specular, IRONY_TEXTURE_PATH);
+		case GORenderTextureIndex::Specular::IronyIndex:
+			model->SetModelMap(TextureType::Specular, TexturePath::IRONY_TEXTURE_PATH);
 			break;
 
-		case WHITE_SPECULAR_INDEX:
-			model->SetModelMap(TextureType::Specular, WHITE_TEXTURE_PATH);
+		case GORenderTextureIndex::Specular::WhiteIndex:
+			model->SetModelMap(TextureType::Specular, TexturePath::WHITE_TEXTURE_PATH);
 			break;
 
-		case CUSTOM_SPECULAR_INDEX:
+		case GORenderTextureIndex::Specular::CustonIndex:
 			ChooseCustomTexture(TextureType::Specular);
 			break;
 	}
@@ -303,41 +314,37 @@ Renderer::Texture* Renderer::GameObject::GetModeMap(TextureType type)
 
 	return model->GetModeMap(type);
 }
-glm::mat4 Renderer::GameObject::Model()
-{
-	return parent ? parent->Model() * transform.Model() : transform.Model();
-}
 void Renderer::GameObject::ChooseCubeModel()
 {
-	ChooseModel(CUBE_MODEL_PATH);
+	ChooseModel(ModelPath::CUBE_MODEL_PATH);
 	if (model)
 	{
-		model->SetModelMap(TextureType::Diffuse,WOOD_TEXTURE_PATH);
-		model->SetModelMap(TextureType::Specular, IRONY_TEXTURE_PATH);
-		renderInfo.diffuseMapChoose = WOOD_DIFFUSE_INDEX;
-		renderInfo.specularMapChoose = IRONY_SPECULAR_INDEX;
+		model->SetModelMap(TextureType::Diffuse, TexturePath::WOOD_TEXTURE_PATH);
+		model->SetModelMap(TextureType::Specular, TexturePath::IRONY_TEXTURE_PATH);
+		renderInfo.diffuseMapChoose = GORenderTextureIndex::Diffuse::WoodIndex;
+		renderInfo.specularMapChoose = GORenderTextureIndex::Specular::IronyIndex;
 	}
 }
 void Renderer::GameObject::ChooseSphereModel()
 {
-	ChooseModel(SPHERE_MODEL_PATH);
+	ChooseModel(ModelPath::SPHERE_MODEL_PATH);
 	if (model)
 	{
-		model->SetModelMap(TextureType::Diffuse, WALL_TEXTURE_PATH);
-		model->SetModelMap(TextureType::Specular, WHITE_TEXTURE_PATH);
-		renderInfo.diffuseMapChoose = WALL_DIFFUSE_INDEX;
-		renderInfo.specularMapChoose = WHITE_SPECULAR_INDEX;
+		model->SetModelMap(TextureType::Diffuse, TexturePath::WALL_TEXTURE_PATH);
+		model->SetModelMap(TextureType::Specular, TexturePath::WHITE_TEXTURE_PATH);
+		renderInfo.diffuseMapChoose = GORenderTextureIndex::Diffuse::WallIndex;
+		renderInfo.specularMapChoose = GORenderTextureIndex::Specular::WhiteIndex;
 	}
 }
 void Renderer::GameObject::ChoosePanelModel()
 {
-	ChooseModel(PANEL_MODEL_PATH);
+	ChooseModel(ModelPath::PANEL_MODEL_PATH);
 	if (model)
 	{
-		model->SetModelMap(TextureType::Diffuse, WOOD_TEXTURE_PATH);
-		model->SetModelMap(TextureType::Specular, IRONY_TEXTURE_PATH);
-		renderInfo.diffuseMapChoose = WOOD_DIFFUSE_INDEX;
-		renderInfo.specularMapChoose = IRONY_SPECULAR_INDEX;
+		model->SetModelMap(TextureType::Diffuse, TexturePath::WOOD_TEXTURE_PATH);
+		model->SetModelMap(TextureType::Specular, TexturePath::IRONY_TEXTURE_PATH);
+		renderInfo.diffuseMapChoose = GORenderTextureIndex::Diffuse::WoodIndex;;
+		renderInfo.specularMapChoose = GORenderTextureIndex::Specular::IronyIndex;;
 	}
 }
 void Renderer::GameObject::ChooseCustomModel()
@@ -346,8 +353,8 @@ void Renderer::GameObject::ChooseCustomModel()
 	const char* path = tinyfd_openFileDialog("选择OBJ模型文件", "", 1, filter, "OBJ Files", 0);
 	if (path)
 	{
-		renderInfo.diffuseMapChoose = CUSTOM_DIFFUSE_INDEX;
-		renderInfo.specularMapChoose = CUSTOM_SPECULAR_INDEX;
+		renderInfo.diffuseMapChoose = GORenderTextureIndex::Diffuse::CustonIndex;
+		renderInfo.specularMapChoose = GORenderTextureIndex::Specular::CustonIndex;
 		ChooseModel(path);
 	}
 }
@@ -355,21 +362,21 @@ void Renderer::GameObject::ChooseModel()
 {
 	switch (renderInfo.modelType)
 	{
-	case Renderer::ModelType::Cube:
-		ChooseCubeModel();
-		break;
+		case Renderer::ModelType::Cube:
+			ChooseCubeModel();
+			break;
 
-	case Renderer::ModelType::Sphere:
-		ChooseSphereModel();
-		break;
+		case Renderer::ModelType::Sphere:
+			ChooseSphereModel();
+			break;
 
-	case Renderer::ModelType::Panel:
-		ChoosePanelModel();
-		break;
+		case Renderer::ModelType::Panel:
+			ChoosePanelModel();
+			break;
 
-	case Renderer::ModelType::Custom:
-		ChooseCustomModel();
-		break;
+		case Renderer::ModelType::Custom:
+			ChooseCustomModel();
+			break;
 	}
 }
 void Renderer::GameObject::ChooseModel(const char* path)

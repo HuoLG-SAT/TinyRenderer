@@ -9,46 +9,9 @@
 #include"../depend/glm/glm.hpp"
 #include"../depend/glm/gtc/matrix_transform.hpp"
 #include"../depend/glm/gtc/type_ptr.hpp"
+
 namespace Renderer
 {
-#define SHADER_DEFAULT_VERTEX_PATH ("resource/shader/vertex.glsl")
-#define SHADER_DEFAULT_FRAGMENT_PATH ("resource/shader/fragment.glsl")
-#define SHADER_SOLID_VERTEX_PATH ("resource/shader/vertexWithoutShadow.glsl")
-#define SHADER_SOLID_FRAGMENT_PATH ("resource/shader/solidColorFragment.glsl")
-#define SHADER_GRID_VERTEX_PATH ("resource/shader/gridVertex.glsl")
-#define SHADER_GRID_FRAGMENT_PATH ("resource/shader/gridFragment.glsl")
-#define SHADER_OUTLINE_VERTEX_PATH ("resource/shader/outlineVertex.glsl")
-#define SHADER_OUTLINE_FRAGMENT_PATH ("resource/shader/outlinFragment.glsl")
-#define SHADER_CUTOUT_VERTEX_PATH ("resource/shader/vertexWithoutShadow.glsl")
-#define SHADER_CUTOUT_FRAGMENT_PATH ("resource/shader/cutout.glsl")
-#define SHADER_TRANSPARENT_VERTEX_PATH ("resource/shader/vertexWithoutShadow.glsl")
-#define SHADER_TRANSPARENT_FRAGMENT_PATH ("resource/shader/transparentFragment.glsl")
-#define SHADER_SCREENPOSTPROCESS_VERTEX_PATH ("resource/shader/screenPostProcessVertex.glsl")
-#define SHADER_SCREENPOSTPROCESS_FRAGMENT_PATH ("resource/shader/screenPostProcessFragment.glsl")
-#define SHADER_SKYBOX_VERTEX_PATH ("resource/shader/skyboxVertex.glsl")
-#define SHADER_SKYBOX_FRAGMENT_PATH ("resource/shader/skyboxFragment.glsl")
-#define SHADER_REFLECT_VERTEX_PATH ("resource/shader/reflectVertex.glsl")
-#define SHADER_REFLECT_FRAGMENT_PATH ("resource/shader/reflectFragment.glsl")
-#define SHADER_REFRACT_VERTEX_PATH ("resource/shader/reflectVertex.glsl")
-#define SHADER_REFRACT_FRAGMENT_PATH ("resource/shader/refractFragment.glsl")
-#define SHADER_EXPLAND_VERTEX_PATH ("resource/shader/explodeVertex.glsl")
-#define SHADER_EXPLAND_GEOMETRY_PATH ("resource/shader/explodeGeometry.glsl")
-#define SHADER_EXPLAND_FRAGMENT_PATH ("resource/shader/explodeFragment.glsl")
-#define SHADER_NORMAL_VERTEX_PATH ("resource/shader/hairVertex.glsl")
-#define SHADER_NORMAL_GEOMETRY_PATH ("resource/shader/hairGeometry.glsl")
-#define SHADER_NORMAL_FRAGMENT_PATH ("resource/shader/hairFragment.glsl")
-#define SHADER_PLANET_VERTEX_PATH ("resource/shader/planetVertex.glsl")
-#define SHADER_PLANET_FRAGMENT_PATH ("resource/shader/planetFragment.glsl")
-#define SHADER_ROCK_VERTEX_PATH ("resource/shader/rockVertex.glsl")
-#define SHADER_ROCK_FRAGMENT_PATH ("resource/shader/planetFragment.glsl")
-#define SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_VERTEX_PATH ("resource/shader/DLShadowCasterVertex.glsl")
-#define SHADER_DIRECTIONAL_LIGHT_SHADOW_CASTER_FRAGMENT_PATH ("resource/shader/DLShadowCasterFragment.glsl")
-#define SHADER_SPOT_LIGHT_SHADOW_CASTER_VERTEX_PATH ("resource/shader/SLShadowCasterVertex.glsl")
-#define SHADER_SPOT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH ("resource/shader/DLShadowCasterFragment.glsl")
-#define SHADER_POINT_LIGHT_SHADOW_CASTER_VERTEX_PATH ("resource/shader/PLShadowCasterVertex.glsl")
-#define SHADER_POINT_LIGHT_SHADOW_CASTER_GEOMETRY_PATH ("resource/shader/PLShadowCasterGeometry.glsl")
-#define SHADER_POINT_LIGHT_SHADOW_CASTER_FRAGMENT_PATH ("resource/shader/PLShadowCasterFragment.glsl")
-
 #define PROJECTION_VIEW_CAMERAPOSITION_UNIFORM_BLOCK ("PVCUBO")
 #define PROJECTION_VIEW_CAMERAPOSITION_UNIFORM_VARIABLE_NAMES "projection","view","cameraPos"
 #define PROJECTION_VIEW_CAMERAPOSITION_UNIFORM_VARIABLE_NUM (3)
@@ -102,18 +65,48 @@ namespace Renderer
 		~Shader();
 
 		bool Compile();
-		unsigned int Id() const;
 
-		void Use();
+		inline unsigned int Id() const
+		{
+			return programId;
+		}
+		inline void Use() const
+		{
+			glUseProgram(programId);
+		}
 
-		void SetFloat(const char* name, float value);
-		void SetInt(const char* name, int value);
-		void SetInt(const std::string& name, int value);
-		void SetBool(const char* name, bool value);
-		void SetVec3(const char* name, float x, float y, float z);
-		void SetVec3(const char* name, glm::vec3 value);
-		void SetSetMatrix4(const char* name, glm::mat4 value);
-		void SetSetMatrix4(const char* name, int num, glm::mat4* value);
+		inline void SetFloat(const char* name, float value) const
+		{
+			glUniform1f(glGetUniformLocation(programId, name), value);
+		}
+		inline void SetInt(const char* name, int value) const
+		{
+			glUniform1i(glGetUniformLocation(programId, name), value);
+		}
+		inline void SetInt(const std::string& name, int value) const
+		{
+			glUniform1i(glGetUniformLocation(programId, name.c_str()), value);
+		}
+		inline void SetBool(const char* name, bool value) const
+		{
+			glUniform1i(glGetUniformLocation(programId, name), value ? GL_TRUE : GL_FALSE);
+		}
+		inline void SetVec3(const char* name, float x, float y, float z) const
+		{
+			glUniform3f(glGetUniformLocation(programId, name), x, y, z);
+		}
+		inline void SetVec3(const char* name, glm::vec3 value) const
+		{
+			glUniform3fv(glGetUniformLocation(programId, name), 1, glm::value_ptr(value));
+		}
+		inline void SetSetMatrix4(const char* name, glm::mat4 value) const
+		{
+			glUniformMatrix4fv(glGetUniformLocation(programId, name), 1, GL_FALSE, glm::value_ptr(value));
+		}
+		inline void SetSetMatrix4(const char* name, int num, glm::mat4* value) const
+		{
+			glUniformMatrix4fv(glGetUniformLocation(programId, name), num, GL_FALSE, glm::value_ptr(*value));
+		}
 
 		bool BindUniform(const char* uniformBlockName,unsigned int blindPointIndex);
 		void BindUniform(unsigned int unfiormBlockIndex, unsigned int blindPointIndex);
@@ -131,18 +124,18 @@ namespace Renderer
 
 
 	private:
-		unsigned int programId;
-		unsigned int vertexId;
-		unsigned int geometryId;
-		unsigned int fragmentId;
+		unsigned int programId = 0;
+		unsigned int vertexId = 0;
+		unsigned int geometryId = 0;
+		unsigned int fragmentId = 0;
 
-		const char* vertexShaderCode;
-		const char* geometryShaderCode;
-		const char* fragmentShaderCode;
+		const char* vertexShaderCode = nullptr;
+		const char* geometryShaderCode = nullptr;
+		const char* fragmentShaderCode = nullptr;
 		
-		const char* vertexPath;
-		const char* geometryPath;
-		const char* fragmentPath;
+		const char* vertexPath = nullptr;
+		const char* geometryPath = nullptr;
+		const char* fragmentPath = nullptr;
 	};
 
 	class ShaderManager

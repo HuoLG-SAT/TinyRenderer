@@ -1,13 +1,19 @@
-#include"../header/screenPostProcess.h"
-#include"../header/resourceManager.h"
+#include"../header/screenpostprocess.h"
+#include"../header/resourcemanager.h"
 #include"../header/window.h"
 #include<iostream>
-Renderer::ScreenPostProcess::ScreenPostProcess()
-	:isEnableScreenPostProcess(false), FBO(0), CBO(0), RBO(0), MFBO(0), MCBO(0), MRBO(0), width(0), height(0), 
-	panel(nullptr), screenPostProcessShader(nullptr), type(ScreenPostProcessType::None)
-{
 
+namespace Renderer
+{
+	namespace ShaderParameter
+	{
+		constexpr const char* screenTexture = "screenTexture";
+		constexpr const char* type = "type";
+		constexpr const char* scale = "scale";
+	}
 }
+
+Renderer::ScreenPostProcess::ScreenPostProcess() = default;
 Renderer::ScreenPostProcess::~ScreenPostProcess()
 {
 	if (panel)
@@ -32,11 +38,11 @@ Renderer::ScreenPostProcess::~ScreenPostProcess()
 }
 bool Renderer::ScreenPostProcess::InitFrameBuffer()
 {
-	return CreateFrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
+	return CreateFrameBuffer(ScreenConfig::SCREEN_WIDTH, ScreenConfig::SCREEN_HEIGHT);
 }
 bool Renderer::ScreenPostProcess::InitPanelModel()
 {
-	Model* model = Renderer::ResourceManagerI.LoadModel(PANEL_MODEL_PATH);
+	Model* model = Renderer::ResourceManagerI.LoadModel(ModelPath::PANEL_MODEL_PATH);
 	if (!model)
 	{
 		std::cout << "Panel Load Fail!" << std::endl;
@@ -147,9 +153,9 @@ void Renderer::ScreenPostProcess::Draw()
 	screenPostProcessShader->Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, CBO);
-	screenPostProcessShader->SetInt("screenTexture", 0);
-	screenPostProcessShader->SetInt("type", static_cast<int>(type));
-	screenPostProcessShader->SetSetMatrix4("scale", glm::scale(glm::mat4(1.0), glm::vec3(2.0f, 2.0f, 2.0f)));
+	screenPostProcessShader->SetInt(ShaderParameter::screenTexture, 0);
+	screenPostProcessShader->SetInt(ShaderParameter::type, static_cast<int>(type));
+	screenPostProcessShader->SetSetMatrix4(ShaderParameter::scale, glm::scale(glm::mat4(1.0), glm::vec3(2.0f, 2.0f, 2.0f)));
 	panel->Draw(*screenPostProcessShader, ShaderType::ScreenPostScreen);
 	glEnable(GL_MULTISAMPLE);
 }

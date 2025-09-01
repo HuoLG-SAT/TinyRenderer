@@ -1,43 +1,12 @@
 #include"../header/transform.h"
-#include"../header/gameObject.h"
-Renderer::Transform::Transform(GameObject& gameObject)
-	:position(0.0f), rotate(0.0f),scale(1.0f), model(1.0f),isDirty(true), gameObject(gameObject)
+#include"../header/gameobject.h"
+
+Renderer::Transform::Transform(GameObject& gameObject) : gameObject(gameObject)
 {
 
 }
 Renderer::Transform::~Transform() = default;
-void Renderer::Transform::SetDirty()
-{
-	isDirty = true;
-}
-glm::vec3& Renderer::Transform::Position()
-{
-	return position;
-}
-void Renderer::Transform::Position(glm::vec3 position)
-{
-	isDirty = true;
-	this->position = position;
-}
-glm::vec3& Renderer::Transform::Rotate()
-{
-	return rotate;
-}
-void Renderer::Transform::Rotate(glm::vec3 rotate)
-{
-	isDirty = true;
-	this->rotate = rotate;
-}
-glm::vec3& Renderer::Transform::Scale()
-{
-	return scale;
-}
-void Renderer::Transform::Scale(glm::vec3 scale)
-{
-	isDirty = true;
-	this->scale = scale;
 
-}
 glm::mat4& Renderer::Transform::Model()
 {
 	if (isDirty || (gameObject.renderInfo.displayMode != DisplayMode::Static))

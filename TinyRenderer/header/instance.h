@@ -3,13 +3,16 @@
 #include"../depend/glm/glm.hpp"
 #include"../depend/glm/gtc/matrix_transform.hpp"
 #include"../depend/glm/gtc/type_ptr.hpp"
-#include"../header/mathUtility.h"
+#include"../header/mathutility.h"
 
 namespace Renderer
 {
-#define MAX_ROCK_INSTANCE_NUM (1000)
-#define ROCK_RADIUS (25.0f)
-#define ROCK_OFFSET (2.5f)
+	namespace RockInstanceConfig
+	{
+		constexpr const unsigned int MAX_ROCK_INSTANCE_NUM = 1000;
+		constexpr const float ROCK_RADIUS = 25.0f;
+		constexpr const float ROCK_OFFSET = 2.5f;
+	}
 
 	class GPUInstanceManager
 	{
@@ -46,8 +49,8 @@ namespace Renderer
 	{
 		inline glm::mat4 GenerateRockModel(int index)
 		{
-			float angle = static_cast<float>(index) / static_cast<float>(MAX_ROCK_INSTANCE_NUM) * 360.0f;
-			return glm::translate(glm::mat4(1.0f), glm::vec3(cos(angle) * ROCK_RADIUS + MathUtility::Random::Range(0, 2 * ROCK_OFFSET) - ROCK_OFFSET, (MathUtility::Random::Range(0, 2 * ROCK_OFFSET) - ROCK_OFFSET) / 2.0f, sin(angle) * ROCK_RADIUS + MathUtility::Random::Range(0, 2 * ROCK_OFFSET) - ROCK_OFFSET)) * //X、Z轴为对应位置 + [-offset, offset]的偏移量,y轴为 [-offset, offset]的偏移量
+			float angle = static_cast<float>(index) / static_cast<float>(RockInstanceConfig::MAX_ROCK_INSTANCE_NUM) * 360.0f;
+			return glm::translate(glm::mat4(1.0f), glm::vec3(cos(angle) * RockInstanceConfig::ROCK_RADIUS + MathUtility::Random::Range(0, 2 * RockInstanceConfig::ROCK_OFFSET) - RockInstanceConfig::ROCK_OFFSET, (MathUtility::Random::Range(0, 2 * RockInstanceConfig::ROCK_OFFSET) - RockInstanceConfig::ROCK_OFFSET) / 2.0f, sin(angle) * RockInstanceConfig::ROCK_RADIUS + MathUtility::Random::Range(0, 2 * RockInstanceConfig::ROCK_OFFSET) - RockInstanceConfig::ROCK_OFFSET)) * //X、Z轴为对应位置 + [-offset, offset]的偏移量,y轴为 [-offset, offset]的偏移量
 				glm::rotate(glm::mat4(1.0f), glm::radians(static_cast<float>(MathUtility::Random::Range(0, 360))), glm::vec3(static_cast<float>(MathUtility::Random::Range(0, 1) / 10.0f), static_cast<float>(MathUtility::Random::Range(0, 1) / 10.0f), static_cast<float>(MathUtility::Random::Range(0, 1) / 10.0f))) * //绕随机向量作为轴旋转0-360度
 				glm::scale(glm::mat4(1.0f), glm::vec3(0.05f + static_cast<float>(MathUtility::Random::Range(0, 20) / 100.0f)));	//缩放0.05 - 0.25倍
 		}

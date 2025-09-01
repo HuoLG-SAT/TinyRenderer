@@ -1,7 +1,8 @@
-#include"../header/resourceManager.h"
+#include"../header/resourcemanager.h"
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
 #include<iostream>
+
 Renderer::ResourceManager::ResourceManager() = default;
 Renderer::ResourceManager::~ResourceManager()
 {
@@ -97,22 +98,6 @@ Renderer::Texture* Renderer::ResourceManager::MmapRGBTexture(Texture* texture)
 	RGBTexture->isSRGB = false;
 	mmapRGBTetxures.emplace(texture, RGBTexture);
 }
-Renderer::Texture* Renderer::ResourceManager::GetTexture(const std::string& path)
-{
-	if (textures.count(path) > 0)
-	{
-		return textures[path];
-	}
-	return nullptr;
-}
-Renderer::Texture* Renderer::ResourceManager::GetTexture(unsigned int id)
-{
-	if (texturesUnsignedInt.count(id) > 0)
-	{
-		return texturesUnsignedInt[id];
-	}
-	return nullptr;
-}
 Renderer::Model* Renderer::ResourceManager::LoadModel(const std::string& path)
 {
 	if (models.count(path) <= 0)
@@ -148,14 +133,6 @@ Renderer::Cubemap* Renderer::ResourceManager::LoadCubemap(const std::vector<cons
 
 	return cubemaps[name];
 }
-Renderer::Cubemap* Renderer::ResourceManager::GetCubemap(const std::string& name)
-{
-	if (cubemaps.count(name) > 0)
-	{
-		return cubemaps[name];
-	}
-	return nullptr;
-}
 bool Renderer::ResourceManager::CopyModel(const char* srcPath, const char* dstPath)
 {
 	Model* srcModel = LoadModel(srcPath);
@@ -178,43 +155,43 @@ bool Renderer::ResourceManager::CopyModel(const char* srcPath, const char* dstPa
 }
 bool Renderer::ResourceManager::InitResource()
 {
-	if (!LoadTexture(BOX_TEXTURE_PATH, Renderer::TextureType::Diffuse, BOX_TEXTURE_NAME,true)						||
-		!LoadTexture(IRONY_TEXTURE_PATH, Renderer::TextureType::Specular, IRONY_TEXTURE_NAME, true)					||
-		!LoadTexture(WALL_TEXTURE_PATH, Renderer::TextureType::Diffuse, WALL_TEXTURE_NAME, true)					||
-		!LoadTexture(WOOD_TEXTURE_PATH, Renderer::TextureType::Diffuse, WOOD_TEXTURE_NAME, true)					||
-		!LoadTexture(WHITE_TEXTURE_PATH, Renderer::TextureType::Specular, WHITE_TEXTURE_NAME, true)					||
-		!LoadTexture(HUOLG_TEXTURE_PATH, Renderer::TextureType::Diffuse, HUOLG_TEXTURE_NAME, true)					||
-		!LoadTexture(GRASS_CUTOUT_TEXTURE_PATH, Renderer::TextureType::Diffuse, GRASS_CUTOUT_TEXTURE_NAME, true)	||
-		!LoadTexture(FACE_CUTOUT_TEXTURE_PATH, Renderer::TextureType::Diffuse, GRASS_CUTOUT_TEXTURE_NAME, true)		||
-		!LoadTexture(WINDOW_TRANSPARENT_TEXTURE_PATH, Renderer::TextureType::Diffuse, GRASS_CUTOUT_TEXTURE_NAME, true))
+	if (!LoadTexture(TexturePath::BOX_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::BOX_TEXTURE_NAME,true)							||
+		!LoadTexture(TexturePath::IRONY_TEXTURE_PATH, Renderer::TextureType::Specular, TextureName::IRONY_TEXTURE_NAME, true)					||
+		!LoadTexture(TexturePath::WALL_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::WALL_TEXTURE_NAME, true)						||
+		!LoadTexture(TexturePath::WOOD_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::WOOD_TEXTURE_NAME, true)						||
+		!LoadTexture(TexturePath::WHITE_TEXTURE_PATH, Renderer::TextureType::Specular, TextureName::WHITE_TEXTURE_NAME, true)					||
+		!LoadTexture(TexturePath::HUOLG_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::HUOLG_TEXTURE_NAME, true)					||
+		!LoadTexture(TexturePath::GRASS_CUTOUT_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::GRASS_CUTOUT_TEXTURE_NAME, true)		||
+		!LoadTexture(TexturePath::FACE_CUTOUT_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::GRASS_CUTOUT_TEXTURE_NAME, true)		||
+		!LoadTexture(TexturePath::WINDOW_TRANSPARENT_TEXTURE_PATH, Renderer::TextureType::Diffuse, TextureName::GRASS_CUTOUT_TEXTURE_NAME, true))
 	{
 		return false;
 	}
-	if (!MmapRGBTexture(GetTexture(BOX_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(IRONY_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(WALL_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(WOOD_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(WHITE_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(HUOLG_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(GRASS_CUTOUT_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(FACE_CUTOUT_TEXTURE_PATH)) ||
-		!MmapRGBTexture(GetTexture(WINDOW_TRANSPARENT_TEXTURE_PATH)))
+	if (!MmapRGBTexture(GetTexture(TexturePath::BOX_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::IRONY_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::WALL_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::WOOD_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::WHITE_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::HUOLG_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::GRASS_CUTOUT_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::FACE_CUTOUT_TEXTURE_PATH)) ||
+		!MmapRGBTexture(GetTexture(TexturePath::WINDOW_TRANSPARENT_TEXTURE_PATH)))
 	{
 		return false;
 	}
-	if (!LoadModel(CUBE_MODEL_PATH)   || 
-		!LoadModel(PANEL_MODEL_PATH)  ||
-		!LoadModel(PLANET_MODEL_PATH) ||
-		!LoadModel(ROCK_MODEL_PATH))
+	if (!LoadModel(ModelPath::CUBE_MODEL_PATH)   || 
+		!LoadModel(ModelPath::PANEL_MODEL_PATH)  ||
+		!LoadModel(ModelPath::PLANET_MODEL_PATH) ||
+		!LoadModel(ModelPath::ROCK_MODEL_PATH))
 	{
 		return false;
 	}
-	if (!CopyModel(PLANET_MODEL_PATH, SPHERE_MODEL_PATH))
+	if (!CopyModel(ModelPath::PLANET_MODEL_PATH, ModelPath::SPHERE_MODEL_PATH))
 	{
 		return false;
 	}
-	if (!LoadCubemap(CUBEMAP_GLACIER_SKYBOX_PATH, CUBEMAP_GLACIER_SKYBOX_NAME,true) ||
-		!LoadCubemap(CUBEMAP_PALACE_SKYBOX_PATH, CUBEMAP_PALACE_SKYBOX_NAME,true))
+	if (!LoadCubemap(CUBEMAP_GLACIER_SKYBOX_PATH, SkyboxName::CUBEMAP_GLACIER_SKYBOX_NAME,true) ||
+		!LoadCubemap(CUBEMAP_PALACE_SKYBOX_PATH, SkyboxName::CUBEMAP_PALACE_SKYBOX_NAME,true))
 	{
 		return false;
 	}

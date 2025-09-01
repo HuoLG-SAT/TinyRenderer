@@ -90,10 +90,10 @@
     <ClCompile Include="source\shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\timeUtility.cpp">
+    <ClCompile Include="source\timesystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\gUIManager.cpp">
+    <ClCompile Include="source\guimanager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="depend\imgui\imgui.cpp">
@@ -120,10 +120,10 @@
     <ClCompile Include="source\renderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\sceneManager.cpp">
+    <ClCompile Include="source\scenemanager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\gameObject.cpp">
+    <ClCompile Include="source\gameobject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="source\transform.cpp">
@@ -135,13 +135,13 @@
     <ClCompile Include="source\mesh.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\resourceManager.cpp">
+    <ClCompile Include="source\resourcemanager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\lightManager.cpp">
+    <ClCompile Include="source\lightmanager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\mathUtility.cpp">
+    <ClCompile Include="source\mathutility.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="depend\tinyfiledialogs\tinyfiledialogs.c">
@@ -153,7 +153,7 @@
     <ClCompile Include="depend\stb_image\stb_image.cpp">
       <Filter>源文件\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="source\screenPostProcess.cpp">
+    <ClCompile Include="source\screenpostprocess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="source\skybox.cpp">
@@ -162,7 +162,7 @@
     <ClCompile Include="source\instance.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="source\shadowMapManager.cpp">
+    <ClCompile Include="source\shadowmapmanager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -176,10 +176,10 @@
     <ClInclude Include="header\shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\timeUtility.h">
+    <ClInclude Include="header\timesystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\gUIManager.h">
+    <ClInclude Include="header\guimanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="depend\imgui\imconfig.h">
@@ -212,10 +212,10 @@
     <ClInclude Include="header\renderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\sceneManager.h">
+    <ClInclude Include="header\scenemanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\gameObject.h">
+    <ClInclude Include="header\gameobject.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="header\transform.h">
@@ -227,7 +227,7 @@
     <ClInclude Include="header\model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\resourceManager.h">
+    <ClInclude Include="header\resourcemanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="depend\stb_image\stb_image.h">
@@ -236,10 +236,10 @@
     <ClInclude Include="depend\tinyfiledialogs\tinyfiledialogs.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\lightManager.h">
+    <ClInclude Include="header\lightmanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\mathUtility.h">
+    <ClInclude Include="header\mathutility.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="header\grid.h">
@@ -248,7 +248,7 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\screenPostProcess.h">
+    <ClInclude Include="header\screenpostprocess.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="header\skybox.h">
@@ -257,7 +257,7 @@
     <ClInclude Include="header\instance.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="header\shadowMapManager.h">
+    <ClInclude Include="header\shadowmapmanager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

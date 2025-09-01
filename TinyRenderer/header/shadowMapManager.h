@@ -1,32 +1,37 @@
-#include"lightManager.h"
-#include"gameObject.h"
+#include"lightmanager.h"
+#include"gameobject.h"
 
 namespace Renderer
 {
-#define SHADOW_MAP_WIDTH (2048)
-#define SHADOW_MAP_HEIGHT (2048)
+	namespace ShadowCastConfig
+	{
+		constexpr const unsigned int SHADOW_MAP_WIDTH = 2048;
+		constexpr const unsigned int SHADOW_MAP_HEIGHT = 2048;
 
-#define DIRECTIONAL_LIGHT_NEAR (1.0f)
-#define DIRECTIONAL_LIGHT_FAR (100.0f)
-#define DIRECTIONAL_LIGHT_LEFT (-10.0f)
-#define DIRECTIONAL_LIGHT_RIGHT (10.0f)
-#define DIRECTIONAL_LIGHT_BOTTOM (-10.0f)
-#define DIRECTIONAL_LIGHT_TOP (10.0f)
+		constexpr const float DIRECTIONAL_LIGHT_NEAR = 1.0f;
+		constexpr const float DIRECTIONAL_LIGHT_FAR = 100.0f;
+		constexpr const float DIRECTIONAL_LIGHT_LEFT = -10.0f;
 
-#define SPOT_LIGHT_FOV (45.0f)
-#define SPOT_LIGHT_NEAR (0.1f)
-#define SPOT_LIGHT_FAR (100.0f)
+		constexpr const float DIRECTIONAL_LIGHT_RIGHT = 10.0f;
+		constexpr const float DIRECTIONAL_LIGHT_BOTTOM = -10.0f;
+		constexpr const float DIRECTIONAL_LIGHT_TOP = 10.0f;
 
-#define POINT_LIGHT_FOV (90.0f)
-#define POINT_LIGHT_NEAR (0.1f)
-#define POINT_LIGHT_FAR (25.0f)
-#define POINT_LIGHT_CUBE_MAP_FACE_NUM (6)
-#define POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX (0)
-#define	POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX (1)
-#define POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX (2)
-#define	POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX (3)
-#define POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX (4)
-#define	POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX (5)
+		constexpr const float SPOT_LIGHT_FOV = 45.0f;
+		constexpr const float SPOT_LIGHT_NEAR = 0.1f;
+		constexpr const float SPOT_LIGHT_FAR = 100.0f;
+
+		constexpr const float POINT_LIGHT_FOV = 90.0f;
+		constexpr const float POINT_LIGHT_NEAR = 0.1f;
+		constexpr const float POINT_LIGHT_FAR = 25.0f;
+
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_FACE_NUM = 6;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_POSITIVE_X_INDEX = 0;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_NEGATIVE_X_INDEX = 1;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_POSITIVE_Y_INDEX = 2;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_NEGATIVE_Y_INDEX = 3;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_POSITIVE_Z_INDEX = 4;
+		constexpr const unsigned int POINT_LIGHT_CUBE_MAP_NEGATIVE_Z_INDEX = 5;
+	}
 
 	class ShadowMapManager
 	{
@@ -35,6 +40,7 @@ namespace Renderer
 		friend class GUIManager;
 	public:
 		bool Init();
+
 		void UpdataDirectionaLightSpaceMatrix();
 		void UpdataSpotLightSpaceMatrix();
 		void UpdataPointtLightSpaceMatrixs();
@@ -83,12 +89,12 @@ namespace Renderer
 		Shader* spotLightShadowCasterShader = nullptr;
 
 		//点光源
-		unsigned int PLFBO[MAX_POINT_NUM];
-		unsigned int PLDBO[MAX_POINT_NUM];
+		unsigned int PLFBO[LightConfig::MAX_POINT_LIGHT_NUM];
+		unsigned int PLDBO[LightConfig::MAX_POINT_LIGHT_NUM];
 		bool isEnablePointLightShadowCaster = true;
 		glm::mat4 pointProjection;
-		glm::mat4 pointViews[MAX_POINT_NUM][POINT_LIGHT_CUBE_MAP_FACE_NUM];
-		glm::mat4 pointSpaceMatrixs[MAX_POINT_NUM][POINT_LIGHT_CUBE_MAP_FACE_NUM];
+		glm::mat4 pointViews[LightConfig::MAX_POINT_LIGHT_NUM][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_FACE_NUM];
+		glm::mat4 pointSpaceMatrixs[LightConfig::MAX_POINT_LIGHT_NUM][ShadowCastConfig::POINT_LIGHT_CUBE_MAP_FACE_NUM];
 		Shader* pointLightShadowCasterShader = nullptr;
 
 		std::unordered_map<int,GameObject*> shadowCastGOs; //投射阴影的物体

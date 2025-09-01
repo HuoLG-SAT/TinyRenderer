@@ -9,18 +9,6 @@
 
 namespace Renderer
 {
-#define MATERIAL_SHINESS "material.shininess"
-#define MATERIAL_DIFFUSE_COLOR "material.diffuseColor"
-#define MATERIAL_SPECULAR_COLOR "material.specularColor"
-#define MATERIAL_AMBIENT_COLOR "material.ambientColor"
-#define MATERIAL_DIFFUSE_MAP "material.diffuseMap"
-#define MATERIAL_SPECULAR_MAP "material.specularMap"
-#define CUTOUT_TEXTURE "cutoutTexture"
-#define TRANSPARENT_TEXTURE	"transparentTexture"
-#define EXPLANDE_TEXTURE "_texture"
-#define PLANET_TEXTURE "_texture"
-#define ROCK_TETXURE "_texture"
-
 	struct Vertex
 	{
 		glm::vec3 position;
@@ -36,26 +24,26 @@ namespace Renderer
 
 	struct Texture
 	{
-		unsigned int id;
-		TextureType type;
+		unsigned int id = 0;
+		TextureType type = TextureType::Diffuse;
 		std::string name;
 		std::string path;
-		bool isSRGB;
+		bool isSRGB = false;
 	};
 
 	struct Cubemap
 	{
-		unsigned int id;
+		unsigned int id = 0;
 		std::string name;
 	};
 
 	struct Material
 	{
-		glm::vec3 diffuseColor;
-		glm::vec3 specularColor;
-		glm::vec3 ambientColor;
+		glm::vec3 diffuseColor = glm::vec3(0.0f);
+		glm::vec3 specularColor = glm::vec3(0.0f);
+		glm::vec3 ambientColor = glm::vec3(0.0f);
 		std::unordered_map<TextureType, Texture*> textures;
-		float shininess;
+		float shininess = 0.0f;
 
 		void Apply(Shader& shader,ShaderType shaderType);
 		void ApplyDefaultMaterial(Shader& shader);
@@ -86,9 +74,9 @@ namespace Renderer
 		std::vector<unsigned int> indexs;
 		Material material;
 
-		unsigned int VAO;
-		unsigned int VBO;
-		unsigned int EBO;
+		unsigned int VAO = 0;
+		unsigned int VBO = 0;
+		unsigned int EBO = 0;
 	};
 
 	namespace TextureUtility

@@ -2,8 +2,11 @@
 
 namespace Renderer
 {
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+	namespace ScreenConfig
+	{
+		constexpr const unsigned int SCREEN_WIDTH = 1280;
+		constexpr const unsigned int SCREEN_HEIGHT = 720;
+	}
 
 	class Window;
 	class Camera;
@@ -33,9 +36,5 @@ namespace Renderer
 	extern GPUInstanceManager& GPUInstanceManagerI;
 	extern ShadowMapManager& ShadowMapManagerI;
 
-	bool Init();
-	void UserInput();
-	void Updata();
-	void Render();
-	bool IsClose();
+	int Execute();
 }
